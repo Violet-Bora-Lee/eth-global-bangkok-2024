@@ -20,9 +20,10 @@ const privyConfig: PrivyClientConfig = {
     requireUserPasswordOnCreate: true,
     noPromptOnSignature: false,
   },
-  loginMethods: ["wallet", "email", "sms"],
+  loginMethods: ["email", "telegram", "wallet"],
   appearance: {
-    showWalletLoginFirst: true,
+    showWalletLoginFirst: false,
+    walletChainType: "ethereum-only",
   },
 };
 
