@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./app/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}", "./utils/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./app/scaffold/**/*.{js,ts,jsx,tsx}", 
+    "./components/**/*.{js,ts,jsx,tsx}", 
+    "./utils/**/*.{js,ts,jsx,tsx}"],
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   plugins: [require("daisyui")],
   darkTheme: "dark",
