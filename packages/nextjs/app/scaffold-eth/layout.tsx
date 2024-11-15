@@ -1,7 +1,7 @@
 import "@rainbow-me/rainbowkit/styles.css";
-import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithProviders";
-import { ThemeProvider } from "~~/components/ThemeProvider";
-import "~~/styles/globals.css";
+import { ScaffoldEthAppWithProviders } from "~~/components/scaffold-eth/ScaffoldEthAppWithProviders";
+import { ThemeProvider } from "~~/components/scaffold-eth/ThemeProvider";
+import "~~/styles/scaffold-eth.css";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({

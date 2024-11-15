@@ -1,0 +1,21 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+:root {
+  background: white;
+  color: black;
+}
+
+@layer utilities {
+  @media (min-width: 426px) {
+    .container_custom {
+      @apply max-w-393 w-full;
+    }
+  }
+  @media (min-width: 768px) {
+    .container_custom {
+      @apply max-w-500 w-full;
+    }
+  }
+}

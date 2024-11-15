@@ -1,9 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./app/scaffold/**/*.{js,ts,jsx,tsx}", 
-    "./components/**/*.{js,ts,jsx,tsx}", 
-    "./utils/**/*.{js,ts,jsx,tsx}"],
+  content: ["./app/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}", "./utils/**/*.{js,ts,jsx,tsx}"],
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   plugins: [require("daisyui")],
   darkTheme: "dark",
@@ -85,6 +82,14 @@ module.exports = {
       },
       animation: {
         "pulse-fast": "pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+      },
+      screens: {
+        "sm-custom": "426px",
+        "md-custom": "768px",
+      },
+      maxWidth: {
+        393: "393px",
+        500: "500px",
       },
     },
   },

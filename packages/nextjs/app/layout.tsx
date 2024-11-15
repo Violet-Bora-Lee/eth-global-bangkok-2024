@@ -1,4 +1,5 @@
 import Providers from "~~/components/providers";
+import "~~/styles/rollin-pool.css";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
