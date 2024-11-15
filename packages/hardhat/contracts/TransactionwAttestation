@@ -1,0 +1,88 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+interface IAttestationService {
+    function attest(address user, string calldata data) external;
+    function getAttestations(address user) external view returns (string[] memory);
+}
+
+
+contract Escrow {
+    address public requester;
+    address public driver;
+    address public arbiter;
+    uint public balance;
+
+    constructor(address _beneficiary, address _arbiter) payable {
+        requester = msg.sender;
+        driver = _beneficiary;
+        arbiter = _arbiter;
+        balance = msg.value;
+    }
+ struct Request {
+        address requester;
+        address serviceProvider;
+        uint paymentAmount;
+        bool completed;
+    }
+     IAttestationService public attestationService;
+
+        event RequestCreated(uint requestId, address requester, uint paymentAmount);
+    event RequestCompleted(uint requestId, uint rating);
+       mapping(uint => Request) public requests;
+    uint public requestCount;
+   function createRequest(uint _paymentAmount) public payable {
+        require(msg.value == _paymentAmount, "Payment amount must be equal to the value sent");
+
+        requestCount++;
+        requests[requestCount] = Request({
+            requester: msg.sender,
+            serviceProvider: address(0),
+            
+            paymentAmount: _paymentAmount,
+            completed: false
+        });
+
+        emit RequestCreated(requestCount, msg.sender, _paymentAmount);
+    }
+  function acceptRequest(uint _requestId) public {
+        Request storage req = requests[_requestId];
+        require(req.serviceProvider == address(0), "Request already accepted");
+
+        req.serviceProvider = msg.sender;
+    }
+    // function approve() external {
+    //     require(msg.sender == arbiter, "Only arbiter can approve");
+    //     require(balance > 0, "No funds to release");
+        
+    //     (bool success, ) = driver.call{value: balance}("");
+    //     require(success, "Transfer failed");
+
+    //     balance = 0;
+    // }
+
+    function refund() external {
+        require(msg.sender == requester, "Only depositor can request refund");
+        require(balance > 0, "No funds to refund");
+
+        (bool success, ) = requester.call{value: balance}("");
+        require(success, "Refund failed");
+
+        balance = 0;
+    }
+        function completeRequest(uint _requestId, uint _rating) public {
+        Request storage req = requests[_requestId];
+        require(req.serviceProvider == msg.sender, "Only service provider can complete the request");
+        require(!req.completed, "Request already completed");
+
+        req.completed = true;
+
+        // Record the rating
+       
+
+        // Create an attestation
+        attestationService.attest(req.serviceProvider, string(abi.encodePacked()));
+
+        emit RequestCompleted(_requestId, _rating);
+    }
+}
