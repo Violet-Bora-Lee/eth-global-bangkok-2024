@@ -937,7 +937,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/react@npm:^0.26.16, @floating-ui/react@npm:^0.26.22":
+"@floating-ui/react@npm:^0.26.22":
   version: 0.26.28
   resolution: "@floating-ui/react@npm:0.26.28"
   dependencies:
@@ -958,18 +958,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@headlessui/react@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "@headlessui/react@npm:2.2.0"
+"@headlessui/react@npm:^1.7.18":
+  version: 1.7.19
+  resolution: "@headlessui/react@npm:1.7.19"
   dependencies:
-    "@floating-ui/react": ^0.26.16
-    "@react-aria/focus": ^3.17.1
-    "@react-aria/interactions": ^3.21.3
-    "@tanstack/react-virtual": ^3.8.1
+    "@tanstack/react-virtual": ^3.0.0-beta.60
+    client-only: ^0.0.1
   peerDependencies:
-    react: ^18 || ^19 || ^19.0.0-rc
-    react-dom: ^18 || ^19 || ^19.0.0-rc
-  checksum: d64b23108e3f0ad4a28753aba5bc3c08ad771d2b9f5a2f3a7a8b4dec5b96fbbcce39fe9404a050af2c1ceafdc29837f5c3dc51ca03ea58c7ee2e30cf8b9b8d16
+    react: ^16 || ^17 || ^18
+    react-dom: ^16 || ^17 || ^18
+  checksum: 2a343a5fcf1f45e870cc94613231b89a8da78114001ffafa4751a0eceae7569ff9237aff1f2aedfa6f6e53ee3bb9ba5e5d19ebf1878fee3ff4f3c733fddc1087
   languageName: node
   linkType: hard
 
@@ -2202,9 +2200,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@privy-io/js-sdk-core@npm:0.34.1":
-  version: 0.34.1
-  resolution: "@privy-io/js-sdk-core@npm:0.34.1"
+"@privy-io/js-sdk-core@npm:0.33.0":
+  version: 0.33.0
+  resolution: "@privy-io/js-sdk-core@npm:0.33.0"
   dependencies:
     "@ethersproject/abstract-signer": ^5.7.0
     "@ethersproject/bignumber": ^5.7.0
@@ -2213,7 +2211,7 @@ __metadata:
     "@ethersproject/transactions": ^5.7.0
     "@ethersproject/units": ^5.7.0
     "@privy-io/api-base": ^1.4.0
-    "@privy-io/public-api": 2.15.0
+    "@privy-io/public-api": 2.13.0
     eventemitter3: ^5.0.1
     fetch-retry: ^5.0.6
     jose: ^4.15.5
@@ -2221,34 +2219,26 @@ __metadata:
     libphonenumber-js: ^1.10.44
     set-cookie-parser: ^2.6.0
     uuid: ">=8 <10"
-  peerDependencies:
-    permissionless: ^0.2.10
-    viem: ^2.21.36
-  peerDependenciesMeta:
-    permissionless:
-      optional: true
-    viem:
-      optional: true
-  checksum: e8b686ffe6252c531ead6f143f2cdfa8d346f76e05c1e9e9a264d85fdb4bdeb78bd5c281c37a40122bd35ee995422869b3d8a5d445fbc41b98c6fb36f53d8051
+  checksum: eeed1082afe15b2eff5ae70765a6f4f2c9d4203b8db1391e6423bd2b69bc14f5b1eeb639eb8b3faee29b0e311d0cf1ed2e261511901ba699df1979e72f1a9446
   languageName: node
   linkType: hard
 
-"@privy-io/public-api@npm:2.15.0":
-  version: 2.15.0
-  resolution: "@privy-io/public-api@npm:2.15.0"
+"@privy-io/public-api@npm:2.13.0":
+  version: 2.13.0
+  resolution: "@privy-io/public-api@npm:2.13.0"
   dependencies:
     "@privy-io/api-base": 1.4.0
     bs58: ^5.0.0
     ethers: ^5.7.2
     libphonenumber-js: ^1.10.31
     zod: ^3.22.4
-  checksum: 318ff1d0d47c797ca2d3dc5fa1beccad2718d6db66e466625e959e34a89f0db1f4756452f63b870021b3957913a5dc8ac5077cc6f676414ffdb6054c6e5f5dfa
+  checksum: 8079eef59dcf852dac1b590946bda6c07ea71af5cd11903613e854aee6fc3c25c8e94b2ecd16623a88c38b5134e791b482ce4a5dbbee8c83437f5d40fffd6685
   languageName: node
   linkType: hard
 
-"@privy-io/react-auth@npm:^1.94.2":
-  version: 1.94.2
-  resolution: "@privy-io/react-auth@npm:1.94.2"
+"@privy-io/react-auth@npm:1.94.0":
+  version: 1.94.0
+  resolution: "@privy-io/react-auth@npm:1.94.0"
   dependencies:
     "@coinbase/wallet-sdk": 4.0.3
     "@ethersproject/abstract-signer": ^5.7.0
@@ -2262,11 +2252,11 @@ __metadata:
     "@ethersproject/transactions": ^5.7.0
     "@ethersproject/units": ^5.7.0
     "@floating-ui/react": ^0.26.22
-    "@headlessui/react": ^2.2.0
+    "@headlessui/react": ^1.7.18
     "@heroicons/react": ^2.1.1
     "@marsidev/react-turnstile": ^0.4.1
     "@metamask/eth-sig-util": ^6.0.0
-    "@privy-io/js-sdk-core": 0.34.1
+    "@privy-io/js-sdk-core": 0.33.0
     "@simplewebauthn/browser": ^9.0.1
     "@solana/wallet-adapter-base": ^0.9.23
     "@solana/wallet-standard-wallet-adapter-base": ^1.1.2
@@ -2309,11 +2299,11 @@ __metadata:
       optional: true
     permissionless:
       optional: true
-  checksum: 8d2f3e2642bdee4fdfef278a4be89e9064f6e84ccf5dd28ede451b8bd2e6d95ac9c3e0de45877331edba34ba67e8a4f1f165f1a5d9e1e6ec875c40b96a6eb344
+  checksum: 8839793b5d71525eecaef4fdf406a2a2e3addca783072c486ec410a587cb2fc8d6f1e48b11d235e9c5eff93fb9acfb01283c75b53eebcbf9c530740727297d56
   languageName: node
   linkType: hard
 
-"@privy-io/wagmi@npm:^0.2.12":
+"@privy-io/wagmi@npm:0.2.12":
   version: 0.2.12
   resolution: "@privy-io/wagmi@npm:0.2.12"
   peerDependencies:
@@ -2365,81 +2355,6 @@ __metadata:
     viem: 2.x
     wagmi: ^2.9.0
   checksum: d13af4b9ffa25271282dadfb438b025a3c630bc8e4b9893450a4ac900a8f7f151c02e6c597d52f5fdceff7c0446e4f4c8ebd68ff0773971ec6f6a76c34be0548
-  languageName: node
-  linkType: hard
-
-"@react-aria/focus@npm:^3.17.1":
-  version: 3.18.4
-  resolution: "@react-aria/focus@npm:3.18.4"
-  dependencies:
-    "@react-aria/interactions": ^3.22.4
-    "@react-aria/utils": ^3.25.3
-    "@react-types/shared": ^3.25.0
-    "@swc/helpers": ^0.5.0
-    clsx: ^2.0.0
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0
-  checksum: b201eaacaa19e38c736ae2a4a94245526c8e738b1e74bec3cd9924999cf9d6edd2b35ca2ee2993c56e3db0fe8d528843300eb5d5b394e187595f21fb8ad1f4f7
-  languageName: node
-  linkType: hard
-
-"@react-aria/interactions@npm:^3.21.3, @react-aria/interactions@npm:^3.22.4":
-  version: 3.22.4
-  resolution: "@react-aria/interactions@npm:3.22.4"
-  dependencies:
-    "@react-aria/ssr": ^3.9.6
-    "@react-aria/utils": ^3.25.3
-    "@react-types/shared": ^3.25.0
-    "@swc/helpers": ^0.5.0
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0
-  checksum: a62cbc9658c79a342553f4307b80dfff3de0edae0e3c2654754b847081ef5e1623f3aa945210690d3107efb06a4417e49977991a3f2badf04b6e437b2b17b33b
-  languageName: node
-  linkType: hard
-
-"@react-aria/ssr@npm:^3.9.6":
-  version: 3.9.6
-  resolution: "@react-aria/ssr@npm:3.9.6"
-  dependencies:
-    "@swc/helpers": ^0.5.0
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0
-  checksum: 90645c0da673de555cc1221286980c713d79d5a9328e43adf19121be03a1ba8ebb11e87a3564cd1e1034e00674ee5f95db3d3db263a0109239502d093ebe6862
-  languageName: node
-  linkType: hard
-
-"@react-aria/utils@npm:^3.25.3":
-  version: 3.25.3
-  resolution: "@react-aria/utils@npm:3.25.3"
-  dependencies:
-    "@react-aria/ssr": ^3.9.6
-    "@react-stately/utils": ^3.10.4
-    "@react-types/shared": ^3.25.0
-    "@swc/helpers": ^0.5.0
-    clsx: ^2.0.0
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0
-  checksum: dfb0dc06c8941cb959f021fbd6287ab12e20d958a9ba52307cade8e0586df12472664ca5574086a8f96501128db5cbdd5c9a625b0bc378e43a92165f920824bf
-  languageName: node
-  linkType: hard
-
-"@react-stately/utils@npm:^3.10.4":
-  version: 3.10.4
-  resolution: "@react-stately/utils@npm:3.10.4"
-  dependencies:
-    "@swc/helpers": ^0.5.0
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0
-  checksum: dd00776f1d0e858c62de2f18551faffe91a53547ea4fe0a0ae2e5ff0ca9dac289b68bf06db09e978dab72e9b10a41160ab195186fb07fd7843aecbf60fba801d
-  languageName: node
-  linkType: hard
-
-"@react-types/shared@npm:^3.25.0":
-  version: 3.25.0
-  resolution: "@react-types/shared@npm:3.25.0"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0
-  checksum: 3fb971b74d913bf4dc933e78f5d5c418574fca7313198ef7b0e77c528f8a2e5f76324fb8a5a2be52b5ed997018a6819457e70f964eb1c80dc62941eb8b678710
   languageName: node
   linkType: hard
 
@@ -2662,8 +2577,8 @@ __metadata:
   resolution: "@se-2/nextjs@workspace:packages/nextjs"
   dependencies:
     "@heroicons/react": ^2.1.5
-    "@privy-io/react-auth": ^1.94.2
-    "@privy-io/wagmi": ^0.2.12
+    "@privy-io/react-auth": 1.94.0
+    "@privy-io/wagmi": 0.2.12
     "@rainbow-me/rainbowkit": 2.1.6
     "@tanstack/react-query": ^5.59.15
     "@trivago/prettier-plugin-sort-imports": ^4.3.0
@@ -3084,15 +2999,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/helpers@npm:^0.5.0":
-  version: 0.5.15
-  resolution: "@swc/helpers@npm:0.5.15"
-  dependencies:
-    tslib: ^2.8.0
-  checksum: 1a9e0dbb792b2d1e0c914d69c201dbc96af3a0e6e6e8cf5a7f7d6a5d7b0e8b762915cd4447acb6b040e2ecc1ed49822875a7239f99a2d63c96c3c3407fb6fccf
-  languageName: node
-  linkType: hard
-
 "@tanstack/query-core@npm:5.59.13":
   version: 5.59.13
   resolution: "@tanstack/query-core@npm:5.59.13"
@@ -3111,7 +3017,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-virtual@npm:^3.8.1":
+"@tanstack/react-virtual@npm:^3.0.0-beta.60":
   version: 3.10.9
   resolution: "@tanstack/react-virtual@npm:3.10.9"
   dependencies:
@@ -5764,7 +5670,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"client-only@npm:0.0.1":
+"client-only@npm:0.0.1, client-only@npm:^0.0.1":
   version: 0.0.1
   resolution: "client-only@npm:0.0.1"
   checksum: 0c16bf660dadb90610553c1d8946a7fdfb81d624adea073b8440b7d795d5b5b08beb3c950c6a2cf16279365a3265158a236876d92bce16423c485c322d7dfaf8
@@ -5811,7 +5717,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:2.1.1, clsx@npm:^2.0.0":
+"clsx@npm:2.1.1":
   version: 2.1.1
   resolution: "clsx@npm:2.1.1"
   checksum: acd3e1ab9d8a433ecb3cc2f6a05ab95fe50b4a3cfc5ba47abb6cbf3754585fcb87b84e90c822a1f256c4198e3b41c7f6c391577ffc8678ad587fc0976b24fd57
@@ -14222,13 +14128,6 @@ __metadata:
   version: 2.7.0
   resolution: "tslib@npm:2.7.0"
   checksum: 1606d5c89f88d466889def78653f3aab0f88692e80bb2066d090ca6112ae250ec1cfa9dbfaab0d17b60da15a4186e8ec4d893801c67896b277c17374e36e1d28
-  languageName: node
-  linkType: hard
-
-"tslib@npm:^2.8.0":
-  version: 2.8.1
-  resolution: "tslib@npm:2.8.1"
-  checksum: e4aba30e632b8c8902b47587fd13345e2827fa639e7c3121074d5ee0880723282411a8838f830b55100cbe4517672f84a2472667d355b81e8af165a55dc6203a
   languageName: node
   linkType: hard
 
