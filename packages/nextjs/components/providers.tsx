@@ -1,5 +1,7 @@
 "use client";
 
+import type { PrivyClientConfig } from "@privy-io/react-auth";
+import { PrivyProvider } from "@privy-io/react-auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
 import { wagmiConfig } from "~~/services/web3/wagmiConfig";
@@ -12,11 +14,31 @@ export const queryClient = new QueryClient({
   },
 });
 
+const privyConfig: PrivyClientConfig = {
+  embeddedWallets: {
+    createOnLogin: "users-without-wallets",
+    requireUserPasswordOnCreate: true,
+    noPromptOnSignature: false,
+  },
+  loginMethods: ["wallet", "email", "sms"],
+  appearance: {
+    showWalletLoginFirst: true,
+  },
+};
+
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
-    <WagmiProvider config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </WagmiProvider>
+    <PrivyProvider
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      apiUrl={process.env.NEXT_PUBLIC_PRIVY_AUTH_URL as string}
+      appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID as string}
+      config={privyConfig}
+    >
+      <WagmiProvider config={wagmiConfig}>
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      </WagmiProvider>
+    </PrivyProvider>
   );
 };
 
