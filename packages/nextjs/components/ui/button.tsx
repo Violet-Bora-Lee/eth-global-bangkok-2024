@@ -11,7 +11,8 @@ const buttonVariants = cva(
         default: "bg-du-gray-900 text-white hover:bg-du-gray-900/90",
         secondary: "bg-du-gray-100 text-du-gray-800 hover:bg-du-gray-100/80",
         link: "text-du-gray-900 underline-offset-4 hover:underline",
-        outline: "border border-du-gray-900 text-du-gray-900 hover:bg-du-gray-900 hover:text-white",
+        outline:
+          "border-input placeholder:text-muted-foreground focus-visible:ring-ring flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50 w-full border-purple-200 focus:border-purple-400 focus:ring-purple-400",
       },
       size: {
         default: "w-full p-4",
