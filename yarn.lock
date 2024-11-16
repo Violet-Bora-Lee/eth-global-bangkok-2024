@@ -2647,6 +2647,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^8.8.1
     "@typescript-eslint/parser": ^8.8.1
     chai: ^4.5.0
+    cli-table3: ^0.6.5
     dotenv: ^16.4.5
     envfile: ^7.1.0
     eslint: ^8.57.1
@@ -13242,7 +13243,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "se-2@workspace:."
   dependencies:
-    cli-table3: ^0.6.5
     husky: ^9.1.6
     lint-staged: ^15.2.10
   languageName: unknown
