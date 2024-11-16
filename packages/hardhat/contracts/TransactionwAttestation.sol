@@ -6,7 +6,7 @@ interface IAttestationService {
     function getAttestations(address user) external view returns (string[] memory);
 }
 
-contract TransportAndDeliveryWithAttestation {
+contract TransportWithAttestation {
     IAttestationService public attestationService;
 
     struct Request {

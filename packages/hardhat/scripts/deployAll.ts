@@ -1,9 +1,10 @@
 import { execSync } from "child_process";
+import Table from "cli-table3";
+
 const networks = [
   "sepolia",
   "polygonMumbai",
   "polygonZkEvmTestnet",
-  "chiado",
   "baseSepolia",
   "scrollSepolia",
   "zircuit",
@@ -15,12 +16,19 @@ const networks = [
   "flow",
 ];
 
+const table = new Table({
+  head: ["Network", "Status", "Message"],
+  colWidths: [20, 10, 50],
+});
+
 networks.forEach(network => {
   console.log(`Deploying to ${network}...`);
   try {
     execSync(`yarn deploy --network ${network}`, { stdio: "inherit" });
-    console.log(`Successfully deployed to ${network}`);
+    table.push([network, "Success", "Successfully deployed"]);
   } catch (error) {
-    console.error(`Failed to deploy to ${network}:`, error);
+    table.push([network, "Failed", error.message]);
   }
 });
+
+console.log(table.toString());

@@ -20,12 +20,14 @@ const deployContracts: DeployFunction = async function (hre: HardhatRuntimeEnvir
     You can run the `yarn account` command to check your balance in every network.
   */
   const { deployer } = await hre.getNamedAccounts();
+  console.log("👋🐒 deployer:", deployer);
+
   const { deploy } = hre.deployments;
 
-  await deploy("Profil", {
+  await deploy("Profile", {
     from: deployer,
     // Contract constructor arguments
-    args: [deployer],
+    args: [],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
@@ -35,24 +37,14 @@ const deployContracts: DeployFunction = async function (hre: HardhatRuntimeEnvir
   await deploy("RideManagement", {
     from: deployer,
     // Contract constructor arguments
-    args: [deployer],
+    args: [],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
     autoMine: true,
   });
 
-  await deploy("TransportAndDeliveryWithAttestation", {
-    from: deployer,
-    // Contract constructor arguments
-    args: [deployer],
-    log: true,
-    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
-    // automatically mining the contract deployment transaction. There is no effect on live networks.
-    autoMine: true,
-  });
-
-  await deploy("Profil", {
+  await deploy("TransportWithAttestation", {
     from: deployer,
     // Contract constructor arguments
     args: [deployer],
@@ -63,21 +55,20 @@ const deployContracts: DeployFunction = async function (hre: HardhatRuntimeEnvir
   });
 
   // Get the deployed contract to interact with it after deploying.
-  const profilContract = await hre.ethers.getContract<Contract>("Profil", deployer);
+  const profilContract = await hre.ethers.getContract<Contract>("Profile", deployer);
   const rideManagementContract = await hre.ethers.getContract<Contract>("RideManagement", deployer);
   const TransportAndDeliveryWithAttestationContract = await hre.ethers.getContract<Contract>(
-    "TransportAndDeliveryWithAttestation",
+    "TransportWithAttestation",
     deployer,
   );
 
-  console.log("👋🐒 1:", await profilContract);
-  console.log("👋🐒 2:", await rideManagementContract);
-  console.log("👋🐒 3:", await TransportAndDeliveryWithAttestationContract);
+  console.log("🐒 1:", await profilContract);
+  console.log("🌞 2:", await rideManagementContract);
+  console.log("🎶 3:", await TransportAndDeliveryWithAttestationContract);
 };
 
 export default deployContracts;
 
 // Tags are useful if you have multiple deploy files and only want to run one of them.
 // e.g. yarn deploy --tags YourContract
-deployContracts.tags = ["ProfilContract"];
-deployContracts.tags = ["RideManagementContract"];
+deployContracts.tags = ["Profile", "RideManagement", "TransportWithAttestation"];
