@@ -1,8 +1,8 @@
 import { execSync } from "child_process";
 const networks = [
   "sepolia",
-  "polygonMumbai",
-  "polygonZkEvmTestnet",
+  "amoy",
+  "cardona",
   "chiado",
   "baseSepolia",
   "scrollSepolia",

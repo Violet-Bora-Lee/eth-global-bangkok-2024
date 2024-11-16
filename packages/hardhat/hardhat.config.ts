@@ -52,11 +52,12 @@ const config: HardhatUserConfig = {
       url: "https://rpc2.sepolia.org",
       accounts: [deployerPrivateKey],
     },
-    polygoMumbai: {
-      url: "https://rpc.ankr.com/polygon_mumbai",
+    amoy: {
+      url: "https://rpc-amoy.polygon.technology",
       accounts: [deployerPrivateKey],
     },
-    polygonZkEvmTestnet: {
+    // polygon zk-evm
+    cardona: {
       url: "https://rpc.public.zkevm-test.net",
       accounts: [deployerPrivateKey],
     },
