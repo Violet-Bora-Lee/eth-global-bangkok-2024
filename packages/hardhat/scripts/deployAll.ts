@@ -3,6 +3,7 @@ const networks = [
   "sepolia",
   "polygonMumbai",
   "polygonZkEvmTestnet",
+  "chiado",
   "baseSepolia",
   "scrollSepolia",
   "zircuit",

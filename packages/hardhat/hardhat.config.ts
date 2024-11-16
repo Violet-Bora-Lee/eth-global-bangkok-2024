@@ -49,15 +49,15 @@ const config: HardhatUserConfig = {
       },
     },
     sepolia: {
-      url: `https://rpc2.sepolia.org`,
+      url: "https://rpc2.sepolia.org",
       accounts: [deployerPrivateKey],
     },
     polygoMumbai: {
-      url: `https://rpc.ankr.com/polygon_mumbai`,
+      url: "https://rpc.ankr.com/polygon_mumbai",
       accounts: [deployerPrivateKey],
     },
     polygonZkEvmTestnet: {
-      url: `https://rpc.public.zkevm-test.net`,
+      url: "https://rpc.public.zkevm-test.net",
       accounts: [deployerPrivateKey],
     },
     baseSepolia: {
@@ -86,7 +86,7 @@ const config: HardhatUserConfig = {
       accounts: [deployerPrivateKey],
     },
     morphHolesky: {
-      url: "	https://rpc-quicknode-holesky.morphl2.io",
+      url: "https://rpc-quicknode-holesky.morphl2.io",
       accounts: [deployerPrivateKey],
     },
     lineaSepolia: {
@@ -95,6 +95,11 @@ const config: HardhatUserConfig = {
     },
     flow: {
       url: "https://testnet.evm.nodes.onflow.org",
+      accounts: [deployerPrivateKey],
+    },
+    // gnosis testnet
+    chiado: {
+      url: "https://rpc.chiadochain.net",
       accounts: [deployerPrivateKey],
     },
   },
