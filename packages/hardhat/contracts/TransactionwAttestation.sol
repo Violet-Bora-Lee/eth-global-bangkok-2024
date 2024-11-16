@@ -6,9 +6,6 @@ interface IAttestationService {
     function getAttestations(address user) external view returns (string[] memory);
 }
 
-
-
-
 contract TransportAndDeliveryWithAttestation {
     IAttestationService public attestationService;
 
@@ -32,68 +29,45 @@ contract TransportAndDeliveryWithAttestation {
         attestationService = IAttestationService(_attestationService);
     }
 
-    function createRequest(uint _paymentAmount) public payable {
-        require(msg.value == _paymentAmount, "Payment amount must be equal to the value sent");
+    modifier onlyRequester(uint requestId) {
+        require(requests[requestId].requester == msg.sender, "Caller is not the requester");
+        _;
+    }
 
+    modifier onlyServiceProvider(uint requestId) {
+        require(requests[requestId].serviceProvider == msg.sender, "Caller is not the service provider");
+        _;
+    }
+
+    function createRequest(address serviceProvider, uint paymentAmount) public {
         requestCount++;
         requests[requestCount] = Request({
             requester: msg.sender,
-            serviceProvider: address(0),
-            paymentAmount: _paymentAmount,
+            serviceProvider: serviceProvider,
+            paymentAmount: paymentAmount,
             completed: false
         });
-
-        emit RequestCreated(requestCount, msg.sender, _paymentAmount);
+        emit RequestCreated(requestCount, msg.sender, paymentAmount);
     }
 
-    function acceptRequest(uint _requestId) public {
-        Request storage req = requests[_requestId];
-        require(req.serviceProvider == address(0), "Request already accepted");
-
-        req.serviceProvider = msg.sender;
+    function completeRequest(uint requestId, uint rating) public onlyServiceProvider(requestId) {
+        Request storage request = requests[requestId];
+        require(!request.completed, "Request is already completed");
+        request.completed = true;
+        ratings[request.serviceProvider] += rating;
+        ratingCounts[request.serviceProvider]++;
+        emit RequestCompleted(requestId, rating);
+        attestationService.attest(request.serviceProvider, "Request completed with rating");
     }
 
-    function completeRequest(uint _requestId, uint _rating) public {
-        Request storage req = requests[_requestId];
-        require(req.serviceProvider == msg.sender, "Only service provider can complete the request");
-        require(!req.completed, "Request already completed");
-
-        req.completed = true;
-
-        // Record the rating
-        ratings[req.serviceProvider] += _rating;
-        ratingCounts[req.serviceProvider]++;
-
-        // Create an attestation
-        attestationService.attest(req.serviceProvider, string(abi.encodePacked("Rating: ", uint2str(_rating))));
-
-        emit RequestCompleted(_requestId, _rating);
-    }
-
-    function getAverageRating(address _user) public view returns (uint) {
-        if (ratingCounts[_user] == 0) {
+    function getAverageRating(address user) public view returns (uint) {
+        if (ratingCounts[user] == 0) {
             return 0;
         }
-        return ratings[_user] / ratingCounts[_user];
+        return ratings[user] / ratingCounts[user];
     }
 
-    // Helper function to convert uint to string
-    function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
-        if (_i == 0) {
-            return "0";
-        }
-        uint j = _i;
-        uint len;
-        while (j != 0) {
-            len++;
-            j /= 10;
-        }
-        bytes memory bstr = new bytes(len);
-        uint k = len - 1;
-        while (_i != 0) {
-            bstr[k--] = bytes1(uint8(48 + _i % 10));
-            _i /= 10;
-        }
-        return string(bstr);
+    function getRequest(uint requestId) public view returns (Request memory) {
+        return requests[requestId];
     }
 }

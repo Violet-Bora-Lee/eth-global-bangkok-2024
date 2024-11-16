@@ -29,75 +29,68 @@ contract RideManagement {
         uint256 totalSeats;
         uint256 availableSeats;
         string destination;
-        string meta;
     }
 
-    event RidePosted(bytes32 indexed rideId);
+    event RidePosted(bytes32 indexed rideId, address indexed owner);
     event RideBooked(bytes32 indexed rideId, address indexed passenger);
     event RideCompleted(bytes32 indexed rideId);
     event RideCanceled(bytes32 indexed rideId);
 
-    modifier onlyRideOwner(bytes32 rideId) {
-        Ride memory ride = getRide(rideId);
-        require(msg.sender == ride.owner, "Must be ride owner");
+    modifier onlyOwner(bytes32 rideId) {
+        require(_rides[_rideIndexMap[rideId]].owner == msg.sender, "Caller is not the owner");
         _;
     }
 
-    function getRide(bytes32 rideId) public view returns (Ride memory) {
-        uint256 index = _rideIndexMap[rideId];
-        return _rides[index];
+    function postRide(uint256 price, uint256 totalSeats, string memory destination) public {
+        bytes32 rideId = keccak256(abi.encodePacked(msg.sender, block.timestamp, _rideCount));
+        Ride memory newRide = Ride({
+            id: rideId,
+            state: RideState.Posted,
+            owner: msg.sender,
+            passengers: new address[](0),
+            price: price,
+            timestamp: block.timestamp,
+            totalSeats: totalSeats,
+            availableSeats: totalSeats,
+            destination: destination
+        });
+        _rides.push(newRide);
+        _rideIndexMap[rideId] = _rideCount;
+        _rideCount++;
+        emit RidePosted(rideId, msg.sender);
     }
 
-    function postRide(
-        string memory destination,
-        uint256 price,
-        uint256 totalSeats,
-        string memory meta
-    ) public {
-        Ride memory ride;
-        ride.id = keccak256(abi.encodePacked(msg.sender, destination, price, totalSeats, block.timestamp));
-        ride.state = RideState.Posted;
-        ride.owner = msg.sender;
-        ride.price = price;
-        ride.timestamp = block.timestamp;
-        ride.totalSeats = totalSeats;
-        ride.availableSeats = totalSeats;
-        ride.destination = destination;
-        ride.meta = meta;
-
-        _rideIndexMap[ride.id] = _rideCount;
-        _rides.push(ride);
-        _rideCount += 1;
-
-        emit RidePosted(ride.id);
-    }
-
-    function bookRide(bytes32 rideId, uint256 seats) public {
+    function bookRide(bytes32 rideId) public {
         Ride storage ride = _rides[_rideIndexMap[rideId]];
-        require(ride.state == RideState.Posted, "Ride is not available");
-        require(ride.availableSeats >= seats, "Not enough available seats");
-
+        require(ride.state == RideState.Posted, "Ride is not available for booking");
+        require(ride.availableSeats > 0, "No available seats");
         ride.passengers.push(msg.sender);
-        ride.availableSeats -= seats;
-
+        ride.availableSeats--;
         if (ride.availableSeats == 0) {
             ride.state = RideState.Booked;
         }
-
         emit RideBooked(rideId, msg.sender);
     }
 
-    function completeRide(bytes32 rideId) public onlyRideOwner(rideId) {
+    function completeRide(bytes32 rideId) public onlyOwner(rideId) {
         Ride storage ride = _rides[_rideIndexMap[rideId]];
-        require(ride.state == RideState.Booked, "Ride is not in Booked state");
+        require(ride.state == RideState.Booked, "Ride is not booked");
         ride.state = RideState.Completed;
         emit RideCompleted(rideId);
     }
 
-    function cancelRide(bytes32 rideId) public onlyRideOwner(rideId) {
+    function cancelRide(bytes32 rideId) public onlyOwner(rideId) {
         Ride storage ride = _rides[_rideIndexMap[rideId]];
-        require(ride.state == RideState.Posted, "Ride is not in Posted state");
+        require(ride.state == RideState.Posted || ride.state == RideState.Booked, "Ride cannot be canceled");
         ride.state = RideState.Canceled;
         emit RideCanceled(rideId);
+    }
+
+    function getRide(bytes32 rideId) public view returns (Ride memory) {
+        return _rides[_rideIndexMap[rideId]];
+    }
+
+    function getAllRides() public view returns (Ride[] memory) {
+        return _rides;
     }
 }

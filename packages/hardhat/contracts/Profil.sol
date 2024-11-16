@@ -6,147 +6,43 @@ contract Profil {
     struct Driver {
         bool isDriver;          
         uint256 rate;           // Driver rate 
-        string carAssetUrl;      // Car image and description ie number of seats available, pointing towards storacha
-        string infoAssetUrl;     // Driver image, name , age pointing towards storacha database
+        string carAssetUrl;     // Car image and description ie number of seats available, pointing towards storacha
+        string infoAssetUrl;    // Driver image, name , age pointing towards storacha database
         uint256 counterCourse;
         string zkPassport; 
     }
 
-   struct Passenger {
+    struct Passenger {
         bool isPassenger;          
         uint256 rate;           // Passenger rate 
-        string infoAssetUrl;     // Passenger image, name , age pointing towards storacha database
+        string infoAssetUrl;    // Passenger image, name , age pointing towards storacha database
         uint256 counterCourse;
         string zkPassport; 
     }
-    
 
     event DriverAdded(address indexed account);
     event DriverRemoved(address indexed account);
-
     event PassengerAdded(address indexed account); 
-    event PassengerRemoved(address indexed accont);
+    event PassengerRemoved(address indexed account);
 
-    //Roles.Role private drivers;
     mapping(address => Driver) private drivers;
+    mapping(address => Passenger) private passengers;
 
-    //Roles.Role private passengers: 
-    mapping(address => Passenger) private passengers; 
-
-    // Define a modifier that checks to see if msg.sender has the appropriate role
+    // Define modifiers that checks to see if msg.sender has the appropriate role
     modifier onlyDriver() {
-        require(isDriver(msg.sender),"Sender isn't a driver");
+        require(isDriver(msg.sender), "Sender isn't a driver");
         _;
     }
 
     modifier onlyPassenger() {
-        require(isPassenger(msg.sender), "Sender isn't a passenger"); 
+        require(isPassenger(msg.sender), "Sender isn't a passenger");
         _;
     }
 
-    /**
-    * @dev Checks if given address is a driver
-    *
-    */
-    function isDriver(address account) public view returns (bool) {
-        return drivers[account].isDriver;
-    }
-
-    /**
-    * @dev Checks if given address is a passenger
-    *
-    */
-    function isPassenger(address account) public view returns (bool) {
-        return passengers[account].isPassenger;
-    }
-
-
-    /**
-    * @dev Gets the Driver address
-    *
-    */
-    function getDriver(address account) 
-    public 
-    view 
-    returns (Driver memory) 
-    {
-        return drivers[account];
-    }
-
-    /**
-    * @dev Gets the Passenger address
-    *
-    */
-    function getPassenger(address account) 
-    public 
-    view 
-    returns (Passenger memory) 
-    {
-        return passengers[account];
-    }
-
-
-    /**
-    * @dev Gets the Driver rate 
-    *
-    */
-    function getDriverRate(address account)
-    public 
-    view
-    returns (uint256)
-    {
-        return drivers[account].rate;
-    }
-
-
-    /**
-    * @dev Gets the Passenger rate 
-    *
-    */
-    function getPassengerRate(address account)
-    public 
-    view
-    returns (uint256)
-    {
-        return passengers[account].rate;
-    }
-
-        /**
-    * @dev Gets the Driver counter 
-    *
-    */
-    function getDriverCounter(address account)
-    public 
-    view
-    returns (uint256)
-    {
-        return drivers[account].counterCourse;
-    }
-
-
-    /**
-    * @dev Gets the Driver counter 
-    *
-    */
-    function getPassengerCounter(address account)
-    public 
-    view
-    returns (uint256)
-    {
-        return passengers[account].counterCourse;
-    }
-
-
-    //Only driver function that is a owner de la rider
-
-
-    /**
-    * @dev Adds driver
-    *
-    */
     function addDriver(uint256 _startingRate, string memory _carAssetUrl, string memory _profileAssetUrl) 
-    public 
+        public 
     {
+        require(!isDriver(msg.sender), "Sender is already a driver");
         Driver memory driverDetails;
         driverDetails.isDriver = true;
         driverDetails.counterCourse = 0; 
@@ -157,14 +53,10 @@ contract Profil {
         emit DriverAdded(msg.sender);
     }
 
-
-    /**
-    * @dev Adds Passenger
-    *
-    */
     function addPassenger(uint256 _startingRate, string memory _profileAssetUrl) 
-    public 
+        public 
     {
+        require(!isPassenger(msg.sender), "Sender is already a passenger");
         Passenger memory passengerDetail;
         passengerDetail.isPassenger = true;
         passengerDetail.counterCourse = 0; 
@@ -174,58 +66,67 @@ contract Profil {
         emit PassengerAdded(msg.sender);
     }
 
-    /**
-    * @dev Removes Passenger
-    *
-    */
     function removePassenger() 
-    public
-    virtual
-    onlyPassenger
+        public
+        onlyPassenger
     {
         delete passengers[msg.sender];
         emit PassengerRemoved(msg.sender);
     }
 
-    /**
-    * @dev Removes driver
-    *
-    */
     function removeDriver() 
-    public
-    virtual
-    onlyDriver
+        public
+        onlyDriver
     {
         delete drivers[msg.sender];
         emit DriverRemoved(msg.sender);
     }
 
-
-    /**
-    * @dev Allows driver to update rate of the passengers
-    *
-    */
-    function updateRateDriver(uint256 _newRate, address _driver) 
-    public 
-    virtual
-    onlyPassenger()
+    function updateRate(uint256 _newRate, address _account, bool _isDriver) 
+        public 
     {
-        Driver memory driverDetails = drivers[_driver];
-        driverDetails.rate = _newRate;
-        drivers[_driver] = driverDetails; 
+        if (_isDriver) {
+            require(isPassenger(msg.sender), "Sender isn't a passenger");
+            Driver memory driverDetails = drivers[_account];
+            driverDetails.rate = _newRate;
+            drivers[_account] = driverDetails; 
+        } else {
+            require(isDriver(msg.sender), "Sender isn't a driver");
+            Passenger memory passengerDetails = passengers[_account];
+            passengerDetails.rate = _newRate;
+            passengers[_account] = passengerDetails; 
+        }
     }
 
-     /**
-    * @dev Allows passenger to update rate of the drivers
-    *
-    */
-    function updateRatePassenger(uint256 _newRate, address _passenger) 
-    public 
-    virtual
-    onlyDriver()
-    {
-        Passenger memory passengerDetail = passengers[_passenger];
-        passengerDetail.rate = _newRate;
-        passengers[_passenger] = passengerDetail; 
+    function isDriver(address account) public view returns (bool) {
+        return drivers[account].isDriver;
+    }
+
+    function isPassenger(address account) public view returns (bool) {
+        return passengers[account].isPassenger;
+    }
+
+    function getDriver(address account) public view returns (Driver memory) {
+        return drivers[account];
+    }
+
+    function getPassenger(address account) public view returns (Passenger memory) {
+        return passengers[account];
+    }
+
+    function getDriverRate(address account) public view returns (uint256) {
+        return drivers[account].rate;
+    }
+
+    function getPassengerRate(address account) public view returns (uint256) {
+        return passengers[account].rate;
+    }
+
+    function getDriverCounter(address account) public view returns (uint256) {
+        return drivers[account].counterCourse;
+    }
+
+    function getPassengerCounter(address account) public view returns (uint256) {
+        return passengers[account].counterCourse;
     }
 }
