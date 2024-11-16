@@ -35,7 +35,6 @@ export const ZkPassportButton = () => {
   const handleZkPassport = async () => {
     setIsModalOpen(true);
 
-    // modifie l'url pour avoir la prod et non le localhost
     const zkPassport = new ZkPassport("https://eth-global-bangkok-2024-nextjs.vercel.app/");
 
     // user's query to the passeport
@@ -46,7 +45,7 @@ export const ZkPassportButton = () => {
     });
 
     // decomposition of the query response onQRCodeScanned
-    const { url, onProofGenerated, onReject, onError } = queryBuilder
+    const { url, onProofGenerated, onReject, onError, onQRCodeScanned } = queryBuilder
       .disclose("nationality")
       .disclose("firstname")
       .done();
@@ -63,6 +62,7 @@ export const ZkPassportButton = () => {
       console.log("An error occurred", error);
     });
 
+    console.log("onQRCodeScanned", onQRCodeScanned);
     // onQRCodeScanned(() => {
     //   // The user scanned the QR code or clicked the button
     //   // Essentially, this means the request popup is now opened
