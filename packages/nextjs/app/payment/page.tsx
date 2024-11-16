@@ -19,8 +19,14 @@ type Ride = {
   telegramHandle: string;
 };
 
+// PaymentMethod enum 정의
+enum PaymentMethod {
+  Wallet = "wallet",
+  Gnosis = "gnosis",
+}
+
 const Payment: NextPage = () => {
-  const { ready, authenticated } = usePrivy();
+  const { ready, authenticated, user } = usePrivy();
   const { ready: readyWallets, wallets } = useWallets();
   const [, setProvider] = useState<WalletClient | null>(null);
   const [, setSigner] = useState<string | null>(null);
@@ -34,6 +40,8 @@ const Payment: NextPage = () => {
     passengers: 1,
     price: 45.0,
   });
+
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null);
 
   const mockRides = [
     {
@@ -49,6 +57,10 @@ const Payment: NextPage = () => {
       telegramHandle: "@sdaav",
     },
   ];
+
+  const shortAddress = user?.wallet?.address
+    ? user.wallet.address.slice(0, 6) + "..." + user.wallet.address.slice(-4)
+    : "";
 
   useEffect(() => {
     const init = async () => {
@@ -66,10 +78,12 @@ const Payment: NextPage = () => {
       }
     };
     init();
-  }, [ready, authenticated, readyWallets, wallets]);
+
+    console.log("user.wallet-->", user?.wallet);
+  }, [ready, authenticated, readyWallets, wallets, user]);
 
   const renderSearchPage = () => (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-white">
       <CardHeader className="bg-purple-600 text-white rounded-t-lg">
         <CardTitle>Search a Ride</CardTitle>
       </CardHeader>
@@ -151,7 +165,7 @@ const Payment: NextPage = () => {
   );
 
   const renderRideSelectionPage = () => (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-white">
       <CardHeader className="bg-purple-600 text-white rounded-t-lg">
         <CardTitle>Available Rides</CardTitle>
         <p className="text-purple-100">{bookingDetails.date || "Select a date"}</p>
@@ -178,7 +192,7 @@ const Payment: NextPage = () => {
                       </p>
                     </div>
                   </div>
-                  <p className="font-bold text-purple-600">${ride.price.toFixed(2)}</p>
+                  <p className="font-bold text-purple-600">{ride.price.toFixed(2)} ETH</p>
                 </div>
               </CardContent>
             </Card>
@@ -189,7 +203,7 @@ const Payment: NextPage = () => {
   );
 
   const renderRecapPage = () => (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-white">
       <CardHeader className="bg-purple-600 text-white rounded-t-lg">
         <CardTitle>Trip Summary</CardTitle>
       </CardHeader>
@@ -206,7 +220,7 @@ const Payment: NextPage = () => {
                   </p>
                 </div>
               </div>
-              <p className="font-bold text-purple-600">${selectedRide?.price.toFixed(2)}</p>
+              <p className="font-bold text-purple-600">{selectedRide?.price.toFixed(2)} ETH</p>
             </div>
             <Button
               variant="outline"
@@ -236,36 +250,33 @@ const Payment: NextPage = () => {
   );
 
   const renderPaymentPage = () => (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-white">
       <CardHeader className="bg-purple-600 text-white rounded-t-lg">
         <CardTitle>Select Payment Method</CardTitle>
         <p className="text-purple-100">You will be reimbursed if the driver won&apos;t accept your request.</p>
       </CardHeader>
       <CardContent className="bg-white">
         <div className="space-y-4">
-          <Button variant="outline" className="w-full border-purple-200 text-purple-600 hover:bg-purple-50">
+          <Button
+            className={`w-full border-2 ${selectedPaymentMethod === PaymentMethod.Wallet ? "border-purple-600" : "border-purple-200"} text-purple-600 hover:bg-purple-50 flex items-center`}
+            onClick={() => setSelectedPaymentMethod(PaymentMethod.Wallet)}
+          >
             <Wallet className="w-4 h-4 mr-2" />
-            Connect Metamask Wallet
+            <span>
+              Pay with Wallet <span className="text-sm text-purple-400">({shortAddress})</span>
+            </span>
           </Button>
-          <Button variant="outline" className="w-full border-purple-200 text-purple-600 hover:bg-purple-50">
+          <Button
+            className={`w-full border-2 ${selectedPaymentMethod === PaymentMethod.Gnosis ? "border-purple-600" : "border-purple-200"} text-purple-600 hover:bg-purple-50 flex items-center`}
+            onClick={() => setSelectedPaymentMethod(PaymentMethod.Gnosis)}
+          >
             <CreditCard className="w-4 h-4 mr-2" />
             Pay with Gnosis Pay
           </Button>
 
           <div className="mt-6">
-            <div className="flex items-center gap-2 mb-2">
-              <Input
-                type="text"
-                value={`${selectedRide?.price.toFixed(2)} USD`}
-                readOnly
-                className="border-purple-200"
-              />
-              <Button variant="outline" className="border-purple-200 text-purple-600 hover:bg-purple-50">
-                USD → ETH
-              </Button>
-            </div>
             <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white" onClick={() => setCurrentPage(5)}>
-              Pay ${selectedRide?.price.toFixed(2)}
+              Pay {selectedRide?.price.toFixed(2)} ETH
             </Button>
           </div>
         </div>
@@ -274,7 +285,7 @@ const Payment: NextPage = () => {
   );
 
   const renderConfirmationPage = () => (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-white">
       <CardHeader className="bg-purple-600 text-white rounded-t-lg">
         <CardTitle>Booking Confirmed!</CardTitle>
       </CardHeader>
