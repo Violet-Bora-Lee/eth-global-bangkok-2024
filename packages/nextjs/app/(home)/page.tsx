@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import ZkPassportButton from "./ZkPassportButton";
+import { ZkPassportButton } from "./components/ZkPassportButton";
 import { usePrivy } from "@privy-io/react-auth";
 import type { NextPage } from "next";
 import LoadingAnimation from "~~/components/LoadingAnimation";
