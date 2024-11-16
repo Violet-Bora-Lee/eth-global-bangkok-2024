@@ -38,13 +38,13 @@ const Payment: NextPage = () => {
   const mockRides = [
     {
       id: 1,
-      driver: "John Doe",
-      price: 45.0,
+      driver: "Aya",
+      price: 0.01, // ETH
       telegramHandle: "@sdaav",
     },
     {
       id: 2,
-      driver: "Jane Smith",
+      driver: "Solene",
       price: 42.5,
       telegramHandle: "@sdaav",
     },
