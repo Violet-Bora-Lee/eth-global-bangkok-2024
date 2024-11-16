@@ -3,7 +3,7 @@
 import React from "react";
 import type { NextPage } from "next";
 
-const Home: NextPage = () => {
+const Dashboard: NextPage = () => {
   return (
     <div className="flex justify-center items-center min-h-screen h-screen">
       <div className="container_custom bg-purple-50 w-full flex flex-col h-full relative">
@@ -19,4 +19,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Dashboard;
