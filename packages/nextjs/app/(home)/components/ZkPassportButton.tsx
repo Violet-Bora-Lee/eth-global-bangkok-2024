@@ -94,23 +94,37 @@ export const ZkPassportButton = () => {
         Connect with ZkPassport
       </button>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <button
+          className="text-gray-500 hover:text-gray-700 flex items-center justify-center"
+          onClick={() => setIsModalOpen(false)}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path
+              fillRule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </button>
+
         <div className="flex items-center justify-between space-x-4">
           <div className="flex flex-col items-center">
             <h3 className="text-lg font-semibold mb-4">Scan the QR Code</h3>
             {qrCodeUrl && <QRCodeSVG value={qrCodeUrl} />}
           </div>
+          <h3 className="text-lg font-semibold mb-4">or</h3>
+
           <div className="flex flex-col items-center">
-            <h3 className="text-lg font-semibold mb-4">or</h3>
             <button
               className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
               onClick={() => redirectToZKPassport(qrCodeUrl)}
             >
               Go directly to zk Passport
             </button>
-            <button className="bg-gray-500 text-white px-4 py-2 rounded" onClick={() => setIsModalOpen(false)}>
-              Close
-            </button>
           </div>
+          {userRejected && <p>User have rejected the request</p>}
+          {error && <p>They is an error {error}</p>}
+
           {proofResult && (
             <div>
               <h3>Proof Result</h3>
@@ -120,9 +134,6 @@ export const ZkPassportButton = () => {
           )}
         </div>
       </Modal>
-      {userRejected && <p>User have rejected the request</p>}
-
-      {error && <p>They is an error {error}</p>}
 
       {/* {onQRCodeScanned && <></>} */}
     </div>
