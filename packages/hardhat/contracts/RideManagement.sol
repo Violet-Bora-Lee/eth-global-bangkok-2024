@@ -12,13 +12,22 @@ contract RideManagement {
     mapping(bytes32 => uint256) private _rideIndexMap;
     uint256 private _rideCount = 0;
 
+    /**
+     * @dev Enum representing the various states a ride can be in.
+     */
     enum RideState {
-        Posted,
-        Booked,
-        Completed,
-        Canceled
+        Pending,      // Ride has been posted but not yet confirmed by the driver
+        Posted,       // Ride has been confirmed by the driver and is available for booking
+        Booked,       // Ride has been booked by a passenger
+        InProgress,   // Ride is currently in progress
+        Completed,    // Ride has been completed
+        Canceled,     // Ride has been canceled
+        Failed        // Ride has failed or been interrupted
     }
 
+    /**
+     * @dev Struct representing a ride.
+     */
     struct Ride {
         bytes32 id;
         RideState state;
@@ -41,11 +50,14 @@ contract RideManagement {
         _;
     }
 
+    /**
+     * @dev Function to post a new ride. Sets the initial state to Pending.
+     */
     function postRide(uint256 price, uint256 totalSeats, string memory destination) public {
         bytes32 rideId = keccak256(abi.encodePacked(msg.sender, block.timestamp, _rideCount));
         Ride memory newRide = Ride({
             id: rideId,
-            state: RideState.Posted,
+            state: RideState.Pending,  // Set initial state to Pending
             owner: msg.sender,
             passengers: new address[](0),
             price: price,
@@ -60,6 +72,19 @@ contract RideManagement {
         emit RidePosted(rideId, msg.sender);
     }
 
+    /**
+     * @dev Function for the driver to confirm a ride. Changes state from Pending to Posted.
+     */
+    function confirmRide(bytes32 rideId) public onlyOwner(rideId) {
+        Ride storage ride = _rides[_rideIndexMap[rideId]];
+        require(ride.state == RideState.Pending, "Ride is not in pending state");
+        ride.state = RideState.Posted;
+        emit RidePosted(ride.id, ride.owner);
+    }
+
+    /**
+     * @dev Function for a passenger to book a ride. Changes state from Posted to Booked if no available seats remain.
+     */
     function bookRide(bytes32 rideId) public {
         Ride storage ride = _rides[_rideIndexMap[rideId]];
         require(ride.state == RideState.Posted, "Ride is not available for booking");
@@ -72,6 +97,9 @@ contract RideManagement {
         emit RideBooked(rideId, msg.sender);
     }
 
+    /**
+     * @dev Function for the driver to mark a ride as completed. Changes state from Booked to Completed.
+     */
     function completeRide(bytes32 rideId) public onlyOwner(rideId) {
         Ride storage ride = _rides[_rideIndexMap[rideId]];
         require(ride.state == RideState.Booked, "Ride is not booked");
@@ -79,9 +107,12 @@ contract RideManagement {
         emit RideCompleted(rideId);
     }
 
+    /**
+     * @dev Function for the driver to cancel a ride. Can be called in Pending, Posted, or Booked states.
+     */
     function cancelRide(bytes32 rideId) public onlyOwner(rideId) {
         Ride storage ride = _rides[_rideIndexMap[rideId]];
-        require(ride.state == RideState.Posted || ride.state == RideState.Booked, "Ride cannot be canceled");
+        require(ride.state == RideState.Pending || ride.state == RideState.Posted || ride.state == RideState.Booked, "Ride cannot be canceled");
         ride.state = RideState.Canceled;
         emit RideCanceled(rideId);
     }
