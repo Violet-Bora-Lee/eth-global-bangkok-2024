@@ -3,6 +3,7 @@
 import type { PrivyClientConfig } from "@privy-io/react-auth";
 import { PrivyProvider } from "@privy-io/react-auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { celoAlfajores } from "viem/chains";
 import { WagmiProvider } from "wagmi";
 import { wagmiConfig } from "~~/services/web3/wagmiConfig";
 
@@ -20,11 +21,13 @@ const privyConfig: PrivyClientConfig = {
     requireUserPasswordOnCreate: true,
     noPromptOnSignature: false,
   },
-  loginMethods: ["email", "telegram", "wallet"],
+  loginMethods: ["email", "wallet"],
   appearance: {
     showWalletLoginFirst: false,
     walletChainType: "ethereum-only",
   },
+  defaultChain: celoAlfajores,
+  supportedChains: [celoAlfajores],
 };
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
