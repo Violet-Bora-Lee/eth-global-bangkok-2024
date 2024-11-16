@@ -6,10 +6,13 @@ import { useWallets } from "@privy-io/react-auth";
 import { Calendar, CreditCard, MapPin, MessageCircle, Share2, Users, Wallet } from "lucide-react";
 import type { NextPage } from "next";
 import { WalletClient, createWalletClient, custom } from "viem";
-import { sepolia } from "viem/chains";
+import { encodeFunctionData, erc20Abi, parseEther } from "viem";
+import { gnosisChiado } from "viem/chains";
+import { useWriteContract } from "wagmi";
 import { Button } from "~~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~~/components/ui/card";
 import { Input } from "~~/components/ui/input";
+import { DELAY_MOD_ABI } from "~~/utils/gnosis/abi-delay-module";
 
 // Define the Ride type
 type Ride = {
@@ -25,11 +28,40 @@ enum PaymentMethod {
   Gnosis = "gnosis",
 }
 
+const delay = (timeout: number = 10000): Promise<void> => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+};
+
+const createUnsignedErc20Tx = (to: string, value: bigint) => {
+  const data = encodeFunctionData({
+    abi: erc20Abi,
+    functionName: "transfer",
+    args: [to, value],
+  });
+  console.log("UnsignedTXData", data);
+  return data;
+};
+
 const Payment: NextPage = () => {
   const { ready, authenticated, user } = usePrivy();
   const { ready: readyWallets, wallets } = useWallets();
   const [, setProvider] = useState<WalletClient | null>(null);
   const [, setSigner] = useState<string | null>(null);
+
+  const { data: queueData, error: queueError, writeContract: queueWriteContract } = useWriteContract();
+
+  const { data: execData, error: execError, writeContract: execWriteContract } = useWriteContract();
+
+  const [erc20Address] = useState("0xDD6Ff5F2f0A5a2e3dB5a71D2B359fFEC21Beef7C");
+  const [recipientAddress] = useState("0xA94632B98BeeCe087d04beaC87C084aB345ff7b8"); // change it to driver's address
+
+  console.log("queueData:", queueData);
+  console.log("queueError:", queueError);
+  console.log("queueWriteContract:", queueWriteContract);
+
+  console.log("execData:", execData);
+  console.log("execError:", execError);
+  console.log("execWriteContract:", execWriteContract);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRide, setSelectedRide] = useState<Ride | null>(null);
@@ -69,7 +101,7 @@ const Payment: NextPage = () => {
       if (ready && authenticated && readyWallets && wallets.length > 0) {
         const ethereumProvider = await wallets[0].getEthereumProvider();
         const client = createWalletClient({
-          chain: sepolia,
+          chain: gnosisChiado,
           transport: custom(ethereumProvider),
         });
 
@@ -81,6 +113,42 @@ const Payment: NextPage = () => {
 
     console.log("user.wallet-->", user?.wallet);
   }, [ready, authenticated, readyWallets, wallets, user]);
+
+  const [delayModAddress] = useState("0x658aAF7A92f6051B49db9262F729C93D5740534a");
+
+  const handlePayButton = () => {
+    if (selectedPaymentMethod === PaymentMethod.Wallet) {
+      // TODO: pay with wallet logic
+    } else if (selectedPaymentMethod == PaymentMethod.Gnosis) {
+      const handleGnosisPay = async () => {
+        try {
+          const amount = parseEther("0.01");
+          const unsignedTxData = createUnsignedErc20Tx(recipientAddress, amount);
+
+          await queueWriteContract({
+            address: delayModAddress,
+            abi: DELAY_MOD_ABI,
+            functionName: "execTransactionFromModule",
+            args: [erc20Address, 0, unsignedTxData, 0],
+          });
+
+          await delay();
+
+          await execWriteContract({
+            address: delayModAddress,
+            abi: DELAY_MOD_ABI,
+            functionName: "executeNextTx",
+            args: [erc20Address, 0, unsignedTxData, 0],
+          });
+
+          setCurrentPage(5);
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
+      handleGnosisPay();
+    }
+  };
 
   const renderSearchPage = () => (
     <div className="space-y-6 bg-white">
@@ -275,7 +343,11 @@ const Payment: NextPage = () => {
           </Button>
 
           <div className="mt-6">
-            <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white" onClick={() => setCurrentPage(5)}>
+            <Button
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+              onClick={handlePayButton}
+              disabled={!selectedPaymentMethod}
+            >
               Pay {selectedRide?.price.toFixed(2)} ETH
             </Button>
           </div>
