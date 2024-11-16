@@ -3,14 +3,6 @@ import { Modal } from "./Modal";
 import { QRCodeSVG } from "qrcode.react";
 import { ZkPassport } from "zkpassport-sdk";
 
-// type ZKPassportProps = {
-//   url: string;
-//   onQRCodeScanned: () => void;
-//   onProofGenerated: (result: any) => void;
-//   onReject: () => void;
-//   onError: (error: any) => void;
-// };
-
 type ProofResult = {
   firstname: string;
   proof: any;
