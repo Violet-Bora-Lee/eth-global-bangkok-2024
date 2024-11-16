@@ -24,29 +24,32 @@ const deployContracts: DeployFunction = async function (hre: HardhatRuntimeEnvir
 
   const { deploy } = hre.deployments;
 
-  await deploy("Profile", {
-    from: deployer,
-    // Contract constructor arguments
-    args: [],
-    log: true,
-    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
-    // automatically mining the contract deployment transaction. There is no effect on live networks.
-    autoMine: true,
-  });
+  // const chronicleOracle = "0xc6639C0591d632Bf689ceab617A0377072e7f524"
+  // const selfKisser = "0x0Dcc19657007713483A5cA76e6A7bbe5f56EA37d"
 
-  await deploy("RideManagement", {
-    from: deployer,
-    // Contract constructor arguments
-    args: [],
-    log: true,
-    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
-    // automatically mining the contract deployment transaction. There is no effect on live networks.
-    autoMine: true,
-  });
+  // await deploy("Profile", {
+  //   from: deployer,
+  //   // Contract constructor arguments
+  //   args: [],
+  //   log: true,
+  //   // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
+  //   // automatically mining the contract deployment transaction. There is no effect on live networks.
+  //   autoMine: true,
+  // });
 
-  await deploy("TransportWithAttestation", {
+  // await deploy("RideManagement", {
+  //   from: deployer,
+  //   // Contract constructor arguments
+  //   args: [],
+  //   log: true,
+  //   // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
+  //   // automatically mining the contract deployment transaction. There is no effect on live networks.
+  //   autoMine: true,
+  // });
+
+  await deploy("TransportWithAttestationWithoutOracle", {
     from: deployer,
-    // Contract constructor arguments
+    // Contract constructor argume dts
     args: [deployer],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
@@ -55,15 +58,15 @@ const deployContracts: DeployFunction = async function (hre: HardhatRuntimeEnvir
   });
 
   // Get the deployed contract to interact with it after deploying.
-  const profilContract = await hre.ethers.getContract<Contract>("Profile", deployer);
-  const rideManagementContract = await hre.ethers.getContract<Contract>("RideManagement", deployer);
+  // const profilContract = await hre.ethers.getContract<Contract>("Profile", deployer);
+  // const rideManagementContract = await hre.ethers.getContract<Contract>("RideManagement", deployer);
   const TransportAndDeliveryWithAttestationContract = await hre.ethers.getContract<Contract>(
-    "TransportWithAttestation",
+    "TransportWithAttestationWithoutOracle",
     deployer,
   );
 
-  console.log("🐒 1:", await profilContract);
-  console.log("🌞 2:", await rideManagementContract);
+  // console.log("🐒 1:", await profilContract);
+  // console.log("🌞 2:", await rideManagementContract);
   console.log("🎶 3:", await TransportAndDeliveryWithAttestationContract);
 };
 

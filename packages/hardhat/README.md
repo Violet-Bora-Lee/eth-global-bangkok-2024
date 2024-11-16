@@ -1,6 +1,6 @@
 # Deployment Summary
 
-## Network: baseSepolia
+## Network: alfajores ( CELO L2)
 
 ### Deployer Address
 👋🐒 Deployer: `0xf15eBd90B2E453cb96663d119380Cc9D03F04DdA`
@@ -8,18 +8,199 @@
 ### Contracts Deployed
 
 1. **Profile**
-   - **Transaction Hash**: `0xcf95048eb8bc3731baa4d79d0f3adfc93cfdac44cbd1b235fcdf06bca14540d9`
-   - **Contract Address**: `0xb2292072B4E0D973E3EA87673599a9842A1FdEbe`
-   - **Gas Used**: `1163679`
+   - **Contract Address**: `0xDD6Ff5F2f0A5a2e3dB5a71D2B359fFEC21Beef7C`
 
 2. **RideManagement**
-   - **Transaction Hash**: `0xc9e97cbf060dc27ea625e0dc38d4421efa44b65442fe455c40a736d90c791dd7`
-   - **Contract Address**: `0x1b78aA9A1a567Ef6d7B10Cb6a3F138547a577290`
-   - **Gas Used**: `959608`
+   - **Contract Address**: `0x70C90CadAa637c11f5aAeF6F413b0350e2f79Ffa`
 
-3. **TransportAndDeliveryWithAttestation**
-   - **Transaction Hash**: `0x126321c6da22a66c40e7494bc3ad03092871e47b6d333bdaa2fe12c1e05a2707`
+3. **TransportWithAttestationWithoutOracle**
+   - **Contract Address**: `0x571A15DFD420409bBa603eF350EE2Efc6DC0bb13`
+
+## Network: amoy ( Polygon )
+
+### Deployer Address
+👋🐒 Deployer: `0xf15eBd90B2E453cb96663d119380Cc9D03F04DdA`
+
+### Contracts Deployed
+
+1. **Profile**
    - **Contract Address**: `0x770256636bA476F19128fBB8193d646D584eC7cc`
-   - **Gas Used**: `477434`
 
-### Deployment Logs
+2. **RideManagement**
+   - **Contract Address**: `0xDD6Ff5F2f0A5a2e3dB5a71D2B359fFEC21Beef7C`
+
+3. **TransportWithAttestationWithoutOracle**
+   - **Contract Address**: `0x70C90CadAa637c11f5aAeF6F413b0350e2f79Ffa`
+
+## Network: baseSepolia ( Base  )
+
+### Deployer Address
+👋🐒 Deployer: `0xf15eBd90B2E453cb96663d119380Cc9D03F04DdA`
+
+### Contracts Deployed
+
+1. **Profile**
+   - **Contract Address**: `0x571A15DFD420409bBa603eF350EE2Efc6DC0bb13`
+
+2. **RideManagement**
+   - **Contract Address**: `0xb446D389dDd768C67c73b39216A86B374F6A9841`
+
+3. **TransportWithAttestationWithoutOracle**
+   - **Contract Address**: `0xC61B44D03C80A31763041B4cc6FE9Ed526C89B3A`
+
+## Network: cardona ( Polygon ZKEVM )
+
+### Deployer Address
+👋🐒 Deployer: `0xf15eBd90B2E453cb96663d119380Cc9D03F04DdA`
+
+### Contracts Deployed
+
+1. **Profile**
+   - **Contract Address**: `0xb2292072B4E0D973E3EA87673599a9842A1FdEbe`
+
+2. **RideManagement**
+   - **Contract Address**: `0x1b78aA9A1a567Ef6d7B10Cb6a3F138547a577290`
+
+3. **TransportWithAttestationWithoutOracle**
+   - **Contract Address**: `0x770256636bA476F19128fBB8193d646D584eC7cc`
+
+
+## Network: chiado ( GNOSIS  )
+
+### Deployer Address
+👋🐒 Deployer: `0xf15eBd90B2E453cb96663d119380Cc9D03F04DdA`
+
+### Contracts Deployed
+
+1. **Profile**
+   - **Contract Address**: `0xb2292072B4E0D973E3EA87673599a9842A1FdEbe`
+
+2. **RideManagement**
+   - **Contract Address**: `0x1b78aA9A1a567Ef6d7B10Cb6a3F138547a577290`
+
+3. **TransportWithAttestationWithoutOracle**
+   - **Contract Address**: `0x770256636bA476F19128fBB8193d646D584eC7cc`
+
+
+## Network: flow ( flow  )
+
+### Deployer Address
+👋🐒 Deployer: `0xf15eBd90B2E453cb96663d119380Cc9D03F04DdA`
+
+### Contracts Deployed
+
+1. **Profile**
+   - **Contract Address**: `0xDD6Ff5F2f0A5a2e3dB5a71D2B359fFEC21Beef7C`
+
+2. **RideManagement**
+   - **Contract Address**: `0x70C90CadAa637c11f5aAeF6F413b0350e2f79Ffa`
+
+3. **TransportWithAttestationWithoutOracle**
+   - **Contract Address**: `0x571A15DFD420409bBa603eF350EE2Efc6DC0bb13`
+
+
+## Network: linea Sepolia ( LINEA  )
+
+### Deployer Address
+👋🐒 Deployer: `0xf15eBd90B2E453cb96663d119380Cc9D03F04DdA`
+
+### Contracts Deployed
+
+1. **Profile**
+   - **Contract Address**: `0xDD6Ff5F2f0A5a2e3dB5a71D2B359fFEC21Beef7C`
+
+2. **RideManagement**
+   - **Contract Address**: `0x70C90CadAa637c11f5aAeF6F413b0350e2f79Ffa`
+
+3. **TransportWithAttestationWithoutOracle**
+   - **Contract Address**: `0x571A15DFD420409bBa603eF350EE2Efc6DC0bb13`
+
+
+
+## Network: morph Holesky ( MORPH  )
+
+### Deployer Address
+👋🐒 Deployer: `0xf15eBd90B2E453cb96663d119380Cc9D03F04DdA`
+
+### Contracts Deployed
+
+1. **Profile**
+   - **Contract Address**: `0xDD6Ff5F2f0A5a2e3dB5a71D2B359fFEC21Beef7C`
+
+2. **RideManagement**
+   - **Contract Address**: `0x70C90CadAa637c11f5aAeF6F413b0350e2f79Ffa`
+
+3. **TransportWithAttestationWithoutOracle**
+   - **Contract Address**: `0x571A15DFD420409bBa603eF350EE2Efc6DC0bb13`
+
+
+
+## Network: rootstock ( ROOTSTOCK  )
+
+### Deployer Address
+👋🐒 Deployer: `0xf15eBd90B2E453cb96663d119380Cc9D03F04DdA`
+
+### Contracts Deployed
+
+1. **Profile**
+   - **Contract Address**: `0xDD6Ff5F2f0A5a2e3dB5a71D2B359fFEC21Beef7C`
+
+2. **RideManagement**
+   - **Contract Address**: `0x70C90CadAa637c11f5aAeF6F413b0350e2f79Ffa`
+
+3. **TransportWithAttestationWithoutOracle**
+   - **Contract Address**: `0xb781D1468F73022AD3d7afF71F5200fe188ce5cE`
+
+
+
+## Network: scroll Sepolia ( SCROLL  )
+
+### Deployer Address
+👋🐒 Deployer: `0xf15eBd90B2E453cb96663d119380Cc9D03F04DdA`
+
+### Contracts Deployed
+
+1. **Profile**
+   - **Contract Address**: `0xb446D389dDd768C67c73b39216A86B374F6A9841`
+
+2. **RideManagement**
+   - **Contract Address**: `0xC61B44D03C80A31763041B4cc6FE9Ed526C89B3A`
+
+3. **TransportWithAttestationWithoutOracle**
+   - **Contract Address**: `0xb781D1468F73022AD3d7afF71F5200fe188ce5cE`
+
+
+## Network: Sepolia ( SEPOLIA ETHEREUM  )
+
+### Deployer Address
+👋🐒 Deployer: `0xf15eBd90B2E453cb96663d119380Cc9D03F04DdA`
+
+### Contracts Deployed
+
+1. **Profile**
+   - **Contract Address**: `0x9561943693Bbb69dDf0B839d049ab55ab418CC60`
+
+2. **RideManagement**
+   - **Contract Address**: `0x52060aD06E2080A539A090650E1e0CBF4E94F748`
+
+<!-- CONTAINING ORACLE CHRONICLE -->
+3. **TransportWithAttestation** 
+   - **Contract Address**: `0xC9D8C072800026880af700aB0844b69c916EC527`
+
+
+
+## Network: ZIRCUIT
+
+### Deployer Address
+👋🐒 Deployer: `0xf15eBd90B2E453cb96663d119380Cc9D03F04DdA`
+
+### Contracts Deployed
+
+1. **Profile**
+   - **Contract Address**: `0xDD6Ff5F2f0A5a2e3dB5a71D2B359fFEC21Beef7C`
+
+2. **RideManagement**
+   - **Contract Address**: `0x70C90CadAa637c11f5aAeF6F413b0350e2f79Ffa`
+
+3. **TransportWithAttestation** 
+   - **Contract Address**: `0x571A15DFD420409bBa603eF350EE2Efc6DC0bb13`

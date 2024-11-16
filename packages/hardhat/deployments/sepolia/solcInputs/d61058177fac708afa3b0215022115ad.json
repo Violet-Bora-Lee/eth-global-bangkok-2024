@@ -1,0 +1,36 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/TransactionwAttestation.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.16;\n\ninterface IAttestationService {\n    function attest(address user, string calldata data) external;\n    function getAttestations(address user) external view returns (string[] memory);\n}\n\ninterface IChronicle {\n    function read() external view returns (uint256 value);\n    function readWithAge() external view returns (uint256 value, uint256 age);\n}\n\ninterface ISelfKisser {\n    function selfKiss(address oracle) external;\n}\n\ncontract TransportWithAttestation {\n    IAttestationService public attestationService;\n    IChronicle public chronicle;\n    ISelfKisser public selfKisser;\n\n    struct Request {\n        address requester;\n        address serviceProvider;\n        uint paymentAmount;\n        uint priceAtRequest;  // ETH/USD price when request was created\n        bool completed;\n    }\n\n    mapping(uint => Request) public requests;\n    uint public requestCount;\n\n    mapping(address => uint) public ratings;\n    mapping(address => uint) public ratingCounts;\n\n    event RequestCreated(uint requestId, address requester, uint paymentAmount, uint priceAtRequest);\n    event RequestCompleted(uint requestId, uint rating, uint finalPayment);\n\n    //Chronicle Oracle : 0xc6639C0591d632Bf689ceab617A0377072e7f524\n    //SelfKisser: 0x0Dcc19657007713483A5cA76e6A7bbe5f56EA37d\n\n    constructor(\n        address _attestationService,\n        address _chronicle,\n        address _selfKisser\n    ) {\n        attestationService = IAttestationService(_attestationService);\n        chronicle = IChronicle(_chronicle);\n        selfKisser = ISelfKisser(_selfKisser);\n        \n        selfKisser.selfKiss(address(chronicle));\n    }\n    function read() external view returns (uint256 val, uint256 age) {\n        (val, age) = chronicle.readWithAge();\n    }\n\n    modifier onlyRequester(uint requestId) {\n        require(requests[requestId].requester == msg.sender, \"Caller is not the requester\");\n        _;\n    }\n\n    modifier onlyServiceProvider(uint requestId) {\n        require(requests[requestId].serviceProvider == msg.sender, \"Caller is not the service provider\");\n        _;\n    }\n\n   \n    function createRequest(address serviceProvider, uint paymentAmount) public {\n        (uint256 currentPrice, uint256 age) = chronicle.readWithAge();\n        \n        \n        require(block.timestamp - age <= 1 hours, \"Oracle data too old\");\n\n        requestCount++;\n        requests[requestCount] = Request({\n            requester: msg.sender,\n            serviceProvider: serviceProvider,\n            paymentAmount: paymentAmount,\n            priceAtRequest: currentPrice,\n            completed: false\n        });\n\n        emit RequestCreated(requestCount, msg.sender, paymentAmount, currentPrice);\n    }\n\n    \n    function completeRequest(uint requestId, uint rating) public onlyServiceProvider(requestId) {\n        require(rating >= 1 && rating <= 5, \"Rating must be between 1 and 5\");\n        \n        Request storage request = requests[requestId];\n        require(!request.completed, \"Request is already completed\");\n\n        (uint256 currentPrice, uint256 age) = chronicle.readWithAge();\n        require(block.timestamp - age <= 1 hours, \"Oracle data too old\");\n\n        // Calculate final payment accounting for ETH price changes\n        uint finalPayment = (request.paymentAmount * request.priceAtRequest) / currentPrice;\n        \n        request.completed = true;\n        ratings[request.serviceProvider] += rating;\n        ratingCounts[request.serviceProvider]++;\n\n        emit RequestCompleted(requestId, rating, finalPayment);\n        \n        // Create detailed attestation with price data\n        string memory attestationData = string(abi.encodePacked(\n            \"Request completed with rating: \", \n            toString(rating),\n            \", Final payment: \",\n            toString(finalPayment)\n        ));\n        \n        attestationService.attest(request.serviceProvider, attestationData);\n    }\n\n   \n    function getAverageRating(address user) public view returns (uint) {\n        if (ratingCounts[user] == 0) {\n            return 0;\n        }\n        return ratings[user] / ratingCounts[user];\n    }\n\n   \n    function getRequest(uint requestId) public view returns (Request memory) {\n        return requests[requestId];\n    }\n\n    \n    function toString(uint256 value) internal pure returns (string memory) {\n        if (value == 0) {\n            return \"0\";\n        }\n        uint256 temp = value;\n        uint256 digits;\n        while (temp != 0) {\n            digits++;\n            temp /= 10;\n        }\n        bytes memory buffer = new bytes(digits);\n        while (value != 0) {\n            digits -= 1;\n            buffer[digits] = bytes1(uint8(48 + uint256(value % 10)));\n            value /= 10;\n        }\n        return string(buffer);\n    }\n     \n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "evmVersion": "paris",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

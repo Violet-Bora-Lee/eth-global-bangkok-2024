@@ -48,17 +48,16 @@ const config: HardhatUserConfig = {
         enabled: process.env.MAINNET_FORKING_ENABLED === "true",
       },
     },
-    sepolia: {
-      url: "https://rpc2.sepolia.org",
-      accounts: [deployerPrivateKey],
-    },
+    // sepolia: {
+    //   url: "https://1rpc.io/sepolia",
+    //   accounts: [deployerPrivateKey],
+    // },
     amoy: {
       url: "https://rpc-amoy.polygon.technology",
       accounts: [deployerPrivateKey],
     },
-    // polygon zk-evm
     cardona: {
-      url: "https://rpc.public.zkevm-test.net",
+      url: "https://rpc.ankr.com/polygon_zkevm_cardona",
       accounts: [deployerPrivateKey],
     },
     baseSepolia: {

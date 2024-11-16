@@ -1,6 +1,6 @@
 import { execSync } from "child_process";
 const networks = [
-  "sepolia",
+  // "sepolia",
   "amoy",
   "cardona",
   "chiado",
@@ -16,6 +16,7 @@ const networks = [
 ];
 
 networks.forEach(network => {
+  console.log("\n\n");
   console.log(`Deploying to ${network}...`);
   try {
     execSync(`yarn deploy --network ${network}`, { stdio: "inherit" });

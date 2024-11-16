@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import ZkPassportButton from "./ZkPassportButton";
 import { usePrivy } from "@privy-io/react-auth";
 import type { NextPage } from "next";
 import LoadingAnimation from "~~/components/LoadingAnimation";
@@ -28,6 +29,7 @@ const Home: NextPage = () => {
                   <div className="flex w-full flex-col items-center">
                     <div className="flex w-4/5 flex-col px-5">
                       <PrivyLoginButton />
+                      <ZkPassportButton />
                     </div>
                   </div>
                 </div>
