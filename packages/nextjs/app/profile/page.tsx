@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Check, Upload } from "lucide-react";
 import type { NextPage } from "next";
@@ -10,6 +10,20 @@ import { Input } from "~~/components/ui/input";
 const Profile: NextPage = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        router.push("/dashboard");
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [router]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -64,7 +78,7 @@ const Profile: NextPage = () => {
   return (
     <div className="flex justify-center items-center min-h-screen h-screen">
       <div className="container_custom bg-purple-50 w-full flex flex-col h-full relative">
-        <div className="h-dvh" onClick={() => router.push("/dashboard")}>
+        <div className="h-dvh">
           <div className="flex w-full h-full flex-col items-center justify-center space-y-4">
             <div className="space-y-6">
               <h2 className="text-2xl font-bold text-purple-800">Driver Profile</h2>

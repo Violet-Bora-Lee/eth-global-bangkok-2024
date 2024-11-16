@@ -13,7 +13,7 @@ const Home: NextPage = () => {
   const router = useRouter();
 
   if (authenticated) {
-    router.push("/dashboard");
+    router.push("/profile");
   }
 
   return (
