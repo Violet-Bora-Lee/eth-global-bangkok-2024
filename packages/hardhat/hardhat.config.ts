@@ -33,7 +33,6 @@ const config: HardhatUserConfig = {
       },
     ],
   },
-  defaultNetwork: "localhost",
   namedAccounts: {
     deployer: {
       // By default, it will take the first Hardhat account as the deployer
@@ -49,56 +48,20 @@ const config: HardhatUserConfig = {
         enabled: process.env.MAINNET_FORKING_ENABLED === "true",
       },
     },
-    mainnet: {
-      url: `https://cloudflare-eth.com`,
-      accounts: [deployerPrivateKey],
-    },
     sepolia: {
       url: `https://rpc2.sepolia.org`,
-      accounts: [deployerPrivateKey],
-    },
-    arbitrum: {
-      url: `https://arb1.arbitrum.io/rpc`,
-      accounts: [deployerPrivateKey],
-    },
-    arbitrumSepolia: {
-      url: `https://sepolia-rollup.arbitrum.io/rpc`,
-      accounts: [deployerPrivateKey],
-    },
-    optimism: {
-      url: `https://mainnet.optimism.io`,
-      accounts: [deployerPrivateKey],
-    },
-    optimismSepolia: {
-      url: `https://sepolia.optimism.io`,
-      accounts: [deployerPrivateKey],
-    },
-    polygon: {
-      url: `https://polygon-rpc.com`,
       accounts: [deployerPrivateKey],
     },
     polygonMumbai: {
       url: `https://rpc.ankr.com/polygon_mumbai`,
       accounts: [deployerPrivateKey],
     },
-    polygonZkEvm: {
-      url: `https://zkevm-rpc.com`,
-      accounts: [deployerPrivateKey],
-    },
     polygonZkEvmTestnet: {
       url: `https://rpc.public.zkevm-test.net`,
       accounts: [deployerPrivateKey],
     },
-    gnosis: {
-      url: "https://rpc.gnosischain.com",
-      accounts: [deployerPrivateKey],
-    },
     chiado: {
       url: "https://rpc.chiadochain.net",
-      accounts: [deployerPrivateKey],
-    },
-    base: {
-      url: "https://mainnet.base.org",
       accounts: [deployerPrivateKey],
     },
     baseSepolia: {
@@ -109,16 +72,33 @@ const config: HardhatUserConfig = {
       url: "https://sepolia-rpc.scroll.io",
       accounts: [deployerPrivateKey],
     },
-    scroll: {
-      url: "https://rpc.scroll.io",
+    zircuit: {
+      url: "https://zircuit1-testnet.p2pify.com",
       accounts: [deployerPrivateKey],
     },
-    pgn: {
-      url: "https://rpc.publicgoods.network",
+    // celo L2
+    alfajores: {
+      url: "https://alfajores-forno.celo-testnet.org",
       accounts: [deployerPrivateKey],
     },
-    pgnTestnet: {
-      url: "https://sepolia.publicgoods.network",
+    mantle: {
+      url: "https://rpc.sepolia.mantle.xyz",
+      accounts: [deployerPrivateKey],
+    },
+    rootstock: {
+      url: "https://go.getblock.io/30598eb32ac247d2b34a554ea7c6d5ce",
+      accounts: [deployerPrivateKey],
+    },
+    morphHolesky: {
+      url: "	https://rpc-quicknode-holesky.morphl2.io",
+      accounts: [deployerPrivateKey],
+    },
+    lineaSepolia: {
+      url: "https://linea-sepolia.public.blastapi.io",
+      accounts: [deployerPrivateKey],
+    },
+    flow: {
+      url: "https://testnet.evm.nodes.onflow.org",
       accounts: [deployerPrivateKey],
     },
   },
