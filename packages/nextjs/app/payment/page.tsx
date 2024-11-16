@@ -1,7 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { usePrivy } from "@privy-io/react-auth";
+import { useWallets } from "@privy-io/react-auth";
 import { Calendar, CreditCard, MapPin, MessageCircle, Share2, Users, Wallet } from "lucide-react";
+import type { NextPage } from "next";
+import { WalletClient, createWalletClient, custom } from "viem";
+import { sepolia } from "viem/chains";
 import { Button } from "~~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~~/components/ui/card";
 import { Input } from "~~/components/ui/input";
@@ -14,7 +19,12 @@ type Ride = {
   telegramHandle: string;
 };
 
-const RideBookingApp = () => {
+const Payment: NextPage = () => {
+  const { ready, authenticated } = usePrivy();
+  const { ready: readyWallets, wallets } = useWallets();
+  const [, setProvider] = useState<WalletClient | null>(null);
+  const [, setSigner] = useState<string | null>(null);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRide, setSelectedRide] = useState<Ride | null>(null);
   const [bookingDetails, setBookingDetails] = useState({
@@ -39,6 +49,24 @@ const RideBookingApp = () => {
       telegramHandle: "@sdaav",
     },
   ];
+
+  useEffect(() => {
+    const init = async () => {
+      if (!authenticated) return;
+
+      if (ready && authenticated && readyWallets && wallets.length > 0) {
+        const ethereumProvider = await wallets[0].getEthereumProvider();
+        const client = createWalletClient({
+          chain: sepolia,
+          transport: custom(ethereumProvider),
+        });
+
+        setProvider(client);
+        setSigner(wallets[0].address);
+      }
+    };
+    init();
+  }, [ready, authenticated, readyWallets, wallets]);
 
   const renderSearchPage = () => (
     <div className="space-y-6">
@@ -303,4 +331,4 @@ const RideBookingApp = () => {
   );
 };
 
-export default RideBookingApp;
+export default Payment;
