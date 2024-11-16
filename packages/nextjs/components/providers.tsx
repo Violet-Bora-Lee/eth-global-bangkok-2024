@@ -3,7 +3,19 @@
 import type { PrivyClientConfig } from "@privy-io/react-auth";
 import { PrivyProvider } from "@privy-io/react-auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { celoAlfajores } from "viem/chains";
+import {
+  baseSepolia,
+  celoAlfajores,
+  flowTestnet,
+  gnosisChiado,
+  lineaSepolia,
+  morphHolesky,
+  polygonAmoy,
+  polygonZkEvmCardona,
+  rootstock,
+  scrollSepolia,
+  sepolia,
+} from "viem/chains";
 import { WagmiProvider } from "wagmi";
 import { wagmiConfig } from "~~/services/web3/wagmiConfig";
 
@@ -26,8 +38,20 @@ const privyConfig: PrivyClientConfig = {
     showWalletLoginFirst: false,
     walletChainType: "ethereum-only",
   },
-  defaultChain: celoAlfajores,
-  supportedChains: [celoAlfajores],
+  defaultChain: gnosisChiado,
+  supportedChains: [
+    celoAlfajores,
+    gnosisChiado,
+    polygonAmoy,
+    baseSepolia,
+    polygonZkEvmCardona,
+    flowTestnet,
+    lineaSepolia,
+    morphHolesky,
+    rootstock,
+    scrollSepolia,
+    sepolia,
+  ],
 };
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
