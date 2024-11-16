@@ -39,6 +39,11 @@ contract TransportAndDeliveryWithAttestation {
         _;
     }
 
+    /**
+     * @dev Function to create a new request.
+     * @param serviceProvider The address of the service provider.
+     * @param paymentAmount The amount to be paid for the service.
+     */
     function createRequest(address serviceProvider, uint paymentAmount) public {
         requestCount++;
         requests[requestCount] = Request({
@@ -50,6 +55,11 @@ contract TransportAndDeliveryWithAttestation {
         emit RequestCreated(requestCount, msg.sender, paymentAmount);
     }
 
+    /**
+     * @dev Function for the service provider to complete a request.
+     * @param requestId The ID of the request to be completed.
+     * @param rating The rating given to the service provider.
+     */
     function completeRequest(uint requestId, uint rating) public onlyServiceProvider(requestId) {
         Request storage request = requests[requestId];
         require(!request.completed, "Request is already completed");
@@ -60,6 +70,11 @@ contract TransportAndDeliveryWithAttestation {
         attestationService.attest(request.serviceProvider, "Request completed with rating");
     }
 
+    /**
+     * @dev Function to get the average rating of a user.
+     * @param user The address of the user.
+     * @return The average rating of the user.
+     */
     function getAverageRating(address user) public view returns (uint) {
         if (ratingCounts[user] == 0) {
             return 0;
@@ -67,6 +82,11 @@ contract TransportAndDeliveryWithAttestation {
         return ratings[user] / ratingCounts[user];
     }
 
+    /**
+     * @dev Function to get the details of a request.
+     * @param requestId The ID of the request.
+     * @return The details of the request.
+     */
     function getRequest(uint requestId) public view returns (Request memory) {
         return requests[requestId];
     }
