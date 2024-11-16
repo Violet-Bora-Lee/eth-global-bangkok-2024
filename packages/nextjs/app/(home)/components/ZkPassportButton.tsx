@@ -35,7 +35,8 @@ export const ZkPassportButton = () => {
   const handleZkPassport = async () => {
     setIsModalOpen(true);
 
-    const zkPassport = new ZkPassport("");
+    // modifie l'url pour avoir la prod et non le localhost
+    const zkPassport = new ZkPassport("https://eth-global-bangkok-2024-nextjs.vercel.app/");
 
     // user's query to the passeport
     const queryBuilder = await zkPassport.request({
