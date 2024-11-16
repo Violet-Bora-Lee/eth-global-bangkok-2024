@@ -170,7 +170,7 @@ const Payment: NextPage = () => {
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <img src="/api/placeholder/40/40" alt={ride.driver} className="rounded-full" />
+                    <Users className="w-10 h-10 rounded-full text-gray-500" />
                     <div>
                       <p className="font-medium text-purple-600">{ride.driver}</p>
                       <p className="text-sm text-purple-400">
@@ -198,7 +198,7 @@ const Payment: NextPage = () => {
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-4">
-                <img src="/api/placeholder/40/40" alt={selectedRide?.driver} className="rounded-full" />
+                <Users className="w-10 h-10 rounded-full text-gray-500" />
                 <div>
                   <p className="font-medium text-purple-600">{selectedRide?.driver}</p>
                   <p className="text-sm text-purple-400">
@@ -283,7 +283,7 @@ const Payment: NextPage = () => {
           <CardContent className="p-4">
             <div className="space-y-4">
               <div className="flex items-center gap-4">
-                <img src="/api/placeholder/40/40" alt={selectedRide?.driver} className="rounded-full" />
+                <Users className="w-10 h-10 rounded-full text-gray-500" />
                 <div>
                   <p className="font-medium text-purple-600">{selectedRide?.driver}</p>
                   <p className="text-sm text-purple-400">
