@@ -5,7 +5,7 @@ contract Profile {
 
     struct Driver {
         bool isDriver;          
-        uint256 rate;           // Driver rate 
+        uint256 rating;           // Driver rating(score) 
         string carAssetUrl;     // Car image and description ie number of seats available, pointing towards storacha
         string infoAssetUrl;    // Driver image, name , age pointing towards storacha database
         uint256 counterCourse;
@@ -14,7 +14,7 @@ contract Profile {
 
     struct Passenger {
         bool isPassenger;          
-        uint256 rate;           // Passenger rate 
+        uint256 rating;           // Passenger rating(score) 
         string infoAssetUrl;    // Passenger image, name , age pointing towards storacha database
         uint256 counterCourse;
         string zkPassport; 
@@ -39,28 +39,28 @@ contract Profile {
         _;
     }
 
-    function addDriver(uint256 _startingRate, string memory _carAssetUrl, string memory _profileAssetUrl) 
+    function addDriver(uint256 _initialRating, string memory _carAssetUrl, string memory _profileAssetUrl) 
         public 
     {
         require(!isDriver(msg.sender), "Sender is already a driver");
         Driver memory driverDetails;
         driverDetails.isDriver = true;
         driverDetails.counterCourse = 0; 
-        driverDetails.rate = _startingRate;
+        driverDetails.rating = _initialRating;
         driverDetails.carAssetUrl = _carAssetUrl;
         driverDetails.infoAssetUrl = _profileAssetUrl;
         drivers[msg.sender] = driverDetails;
         emit DriverAdded(msg.sender);
     }
 
-    function addPassenger(uint256 _startingRate, string memory _profileAssetUrl) 
+    function addPassenger(uint256 _initialRating, string memory _profileAssetUrl) 
         public 
     {
         require(!isPassenger(msg.sender), "Sender is already a passenger");
         Passenger memory passengerDetail;
         passengerDetail.isPassenger = true;
         passengerDetail.counterCourse = 0; 
-        passengerDetail.rate = _startingRate;
+        passengerDetail.rating = _initialRating;
         passengerDetail.infoAssetUrl = _profileAssetUrl;
         passengers[msg.sender] = passengerDetail;
         emit PassengerAdded(msg.sender);
@@ -88,12 +88,12 @@ contract Profile {
         if (_isDriver) {
             require(isPassenger(msg.sender), "Sender isn't a passenger");
             Driver memory driverDetails = drivers[_account];
-            driverDetails.rate = _newRate;
+            driverDetails.rating = _newRate;
             drivers[_account] = driverDetails; 
         } else {
             require(isDriver(msg.sender), "Sender isn't a driver");
             Passenger memory passengerDetails = passengers[_account];
-            passengerDetails.rate = _newRate;
+            passengerDetails.rating = _newRate;
             passengers[_account] = passengerDetails; 
         }
     }
@@ -115,11 +115,11 @@ contract Profile {
     }
 
     function getDriverRate(address account) public view returns (uint256) {
-        return drivers[account].rate;
+        return drivers[account].rating;
     }
 
     function getPassengerRate(address account) public view returns (uint256) {
-        return passengers[account].rate;
+        return passengers[account].rating;
     }
 
     function getDriverCounter(address account) public view returns (uint256) {
