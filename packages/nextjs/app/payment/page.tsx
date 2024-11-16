@@ -1,8 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+// import { CurrencyModal } from "./components/CurrencyModal";
 import { usePrivy } from "@privy-io/react-auth";
 import { useWallets } from "@privy-io/react-auth";
+import type {
+  SendTransactionModalUIOptions,
+  /*UnsignedTransactionRequest*/
+} from "@privy-io/react-auth";
 import { Calendar, CreditCard, MapPin, MessageCircle, Share2, Users, Wallet } from "lucide-react";
 import type { NextPage } from "next";
 import { WalletClient, createWalletClient, custom } from "viem";
@@ -25,11 +30,23 @@ enum PaymentMethod {
   Gnosis = "gnosis",
 }
 
+const chainIds = [
+  { id: 44787, name: "alfajores" }, //0xaef3
+  { id: 10200, name: "chiado" }, //0x27d8
+  { id: 48899, name: "zircuit" }, //0xbf03
+  { id: 11155111, name: "sepolia" }, //0xaa36a7
+  { id: 5003, name: "mantle" }, //5003
+  { id: 534351, name: "scroll" }, //0x8274f
+];
+
 const Payment: NextPage = () => {
-  const { ready, authenticated, user } = usePrivy();
+  const { ready, authenticated, user, sendTransaction } = usePrivy();
   const { ready: readyWallets, wallets } = useWallets();
   const [, setProvider] = useState<WalletClient | null>(null);
   const [, setSigner] = useState<string | null>(null);
+
+  const [selectedChainId, setSelectedChainId] = useState<number>(1);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRide, setSelectedRide] = useState<Ride | null>(null);
@@ -41,13 +58,39 @@ const Payment: NextPage = () => {
     price: 45.0,
   });
 
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null);
+  // const requestData: UnsignedTransactionRequest = {
+  //   to: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
+  //   chainId: selectedChainId,
+  //   value: '0x3B9ACA00',
+  // };
+
+  const uiConfig: SendTransactionModalUIOptions = {
+    header: "Your tx",
+    description: "Buy your ride 🚗",
+    buttonText: "Sample button text",
+    showWalletUIs: true,
+  };
+
+  // const handleTx = async () => {
+  //   console.log("selectedPaymentMethod", selectedPaymentMethod);
+  //   if (selectedPaymentMethod === PaymentMethod.Wallet) {
+  //     const unsignedTx = {
+  //       to: "0x6dF376Ae2eD8c88D448698e4E1E47395D885800c",
+  //       chainId: 44787,
+  //       value: "0x3B9ACA00",
+  //     };
+  //     console.log("unsignedTx", unsignedTx);
+
+  //     const txReceipt = await sendTransaction(unsignedTx, uiConfig);
+  //     console.log("txReceipt", txReceipt);
+  //   }
+  // };
 
   const mockRides = [
     {
       id: 1,
       driver: "Aya",
-      price: 0.01, // ETH
+      price: 0.01, // ETH Convert from eth to usd
       telegramHandle: "@sdaav",
     },
     {
@@ -275,9 +318,41 @@ const Payment: NextPage = () => {
           </Button>
 
           <div className="mt-6">
-            <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white" onClick={() => setCurrentPage(5)}>
+            <label htmlFor="chainId" className="block text-sm font-medium text-gray-700">
+              Select Chain ID
+            </label>
+            <select
+              id="chainId"
+              name="chainId"
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+              value={selectedChainId}
+              onChange={e => setSelectedChainId(Number(e.target.value))}
+            >
+              {chainIds.map(chain => (
+                <option key={chain.id} value={chain.id}>
+                  {chain.name}
+                </option>
+              ))}
+            </select>
+            <Button
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+              onClick={async () => {
+                const unsignedTx = {
+                  to: "0x6dF376Ae2eD8c88D448698e4E1E47395D885800c",
+                  chainId: 44787,
+                  value: "0x3B9ACA00",
+                };
+                await sendTransaction(unsignedTx, uiConfig);
+                // The returned `txReceipt` has the type `TransactionReceipt`
+              }}
+            >
               Pay {selectedRide?.price.toFixed(2)} ETH
             </Button>
+            {/* <CurrencyModal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              onSelectCurrency={handleSelectCurrency}
+            /> */}
           </div>
         </div>
       </CardContent>
