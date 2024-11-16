@@ -5,7 +5,7 @@ contract Profile {
 
     struct Driver {
         bool isDriver;          
-        uint256 rating;           // Driver rating(score) 
+        uint256 rating;           
         string carAssetUrl;     // Car image and description ie number of seats available, pointing towards storacha
         string infoAssetUrl;    // Driver image, name , age pointing towards storacha database
         uint256 counterCourse;
@@ -28,7 +28,7 @@ contract Profile {
     mapping(address => Driver) private drivers;
     mapping(address => Passenger) private passengers;
 
-    // Define modifiers that checks to see if msg.sender has the appropriate role
+   
     modifier onlyDriver() {
         require(isDriver(msg.sender), "Sender isn't a driver");
         _;
