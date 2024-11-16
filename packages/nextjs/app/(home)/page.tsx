@@ -2,11 +2,11 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import ZkPassportButton from "./ZkPassportButton";
 import { usePrivy } from "@privy-io/react-auth";
 import type { NextPage } from "next";
 import LoadingAnimation from "~~/components/LoadingAnimation";
 import PrivyLoginButton from "~~/components/PrivyLoginButton";
+import ZkPassportButton from "~~/components/ZkPassportButton";
 
 const Home: NextPage = () => {
   const { ready, authenticated } = usePrivy();
