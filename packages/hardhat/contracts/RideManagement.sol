@@ -16,13 +16,13 @@ contract RideManagement {
      * @dev Enum representing the various states a ride can be in.
      */
     enum RideState {
-        Pending,      // Ride has been posted but not yet confirmed by the driver
-        Posted,       // Ride has been confirmed by the driver and is available for booking
-        Booked,       // Ride has been booked by a passenger
-        InProgress,   // Ride is currently in progress
-        Completed,    // Ride has been completed
-        Canceled,     // Ride has been canceled
-        Failed        // Ride has failed or been interrupted
+        Pending,      
+        Posted,       
+        Booked,      
+        InProgress,   
+        Completed,    
+        Canceled,     
+        Failed        
     }
 
     /**
