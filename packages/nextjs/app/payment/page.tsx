@@ -453,7 +453,7 @@ const Payment: NextPage = () => {
               <Button
                 className="w-full bg-purple-600 hover:bg-purple-700 text-white"
                 onClick={() => {
-                  /* Join Telegram group */
+                  window.open("https://t.me/+gmUqS53O0o8xMjJk", "_blank");
                 }}
               >
                 <MessageCircle className="w-4 h-4 mr-2" />
