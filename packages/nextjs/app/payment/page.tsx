@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { usePrivy } from "@privy-io/react-auth";
 import { useWallets } from "@privy-io/react-auth";
 // import { CurrencyModal } from "./components/CurrencyModal";
@@ -141,12 +142,14 @@ const Payment: NextPage = () => {
       driver: "Aya",
       price: 0.0001, // ETH Convert from eth to usd
       telegramHandle: "@sdaav",
+      image: "/aya-pfp.jpg",
     },
     {
       id: 2,
       driver: "Solene",
       price: 42.5,
       telegramHandle: "@sdaav",
+      image: "/solene-pfp.jpg",
     },
   ];
 
@@ -310,7 +313,15 @@ const Payment: NextPage = () => {
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <Users className="w-10 h-10 rounded-full text-gray-500" />
+                    <div className="w-12 h-12 bg-purple-200 rounded-full overflow-hidden">
+                      <Image
+                        width={48}
+                        height={48}
+                        src={ride.image}
+                        alt="Aya's profile"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                     <div>
                       <p className="font-medium text-purple-600">{ride.driver}</p>
                       <p className="text-sm text-purple-400">
@@ -338,7 +349,15 @@ const Payment: NextPage = () => {
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-4">
-                <Users className="w-10 h-10 rounded-full text-gray-500" />
+                <div className="w-12 h-12 bg-purple-200 rounded-full overflow-hidden">
+                  <Image
+                    width={48}
+                    height={48}
+                    src="/aya-pfp.jpg"
+                    alt="Aya's profile"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
                 <div>
                   <p className="font-medium text-purple-600">{selectedRide?.driver}</p>
                   <p className="text-sm text-purple-400">

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { Check, CircleDollarSign, Clock, MapPin, MessageCircle, Pencil, Star, Users, XCircle } from "lucide-react";
 import type { NextPage } from "next";
 import { Button } from "~~/components/ui/button";
@@ -138,7 +139,13 @@ const Dashboard: NextPage = () => {
               <CardContent className="p-6">
                 <div className="flex items-start space-x-4">
                   <div className="w-12 h-12 bg-purple-200 rounded-full overflow-hidden">
-                    <img src="/api/placeholder/48/48" alt="Aya's profile" className="w-full h-full object-cover" />
+                    <Image
+                      width={48}
+                      height={48}
+                      src="/aya-pfp.jpg"
+                      alt="Aya's profile"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center">
