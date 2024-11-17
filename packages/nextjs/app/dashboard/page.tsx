@@ -120,7 +120,12 @@ const Dashboard: NextPage = () => {
                 <p className="text-sm text-purple-600">Suggested price range:</p>
                 <p className="font-bold">€45 - €60</p>
               </div>
-              <Button className="w-full bg-purple-600 hover:bg-purple-700">Post the Ride</Button>
+              <Button
+                className="w-full bg-purple-600 hover:bg-purple-700"
+                onClick={() => setCurrentStep(currentStep + 1)}
+              >
+                Post the Ride
+              </Button>
             </div>
           </div>
         );
