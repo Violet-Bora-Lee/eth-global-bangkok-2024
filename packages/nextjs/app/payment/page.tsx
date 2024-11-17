@@ -1,13 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-// import { CurrencyModal } from "./components/CurrencyModal";
 import { usePrivy } from "@privy-io/react-auth";
 import { useWallets } from "@privy-io/react-auth";
-import type {
-  SendTransactionModalUIOptions,
-  /*UnsignedTransactionRequest*/
-} from "@privy-io/react-auth";
+// import { CurrencyModal } from "./components/CurrencyModal";
+import { ethers } from "ethers";
 import { Calendar, CreditCard, MapPin, MessageCircle, Share2, Users, Wallet } from "lucide-react";
 import type { NextPage } from "next";
 import { WalletClient, createWalletClient, custom } from "viem";
@@ -57,10 +54,12 @@ const chainIds = [
 ];
 
 const Payment: NextPage = () => {
-  const { ready, authenticated, user, sendTransaction } = usePrivy();
+  const { ready, authenticated, user } = usePrivy();
   const { ready: readyWallets, wallets } = useWallets();
   const [, setProvider] = useState<WalletClient | null>(null);
   const [, setSigner] = useState<string | null>(null);
+
+  const [delayModAddress] = useState("0x658aAF7A92f6051B49db9262F729C93D5740534a");
 
   const { data: queueData, error: queueError, writeContract: queueWriteContract } = useWriteContract();
 
@@ -89,40 +88,58 @@ const Payment: NextPage = () => {
     passengers: 1,
     price: 45.0,
   });
-
   // const requestData: UnsignedTransactionRequest = {
   //   to: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
   //   chainId: selectedChainId,
   //   value: '0x3B9ACA00',
   // };
 
-  const uiConfig: SendTransactionModalUIOptions = {
-    header: "Your tx",
-    description: "Buy your ride 🚗",
-    buttonText: "Sample button text",
-    showWalletUIs: true,
+  // const uiConfig: SendTransactionModalUIOptions = {
+  //   showWalletUIs: true,
+  //   header: "Your tx",
+  //   description: "Buy your ride 🚗",
+  //   buttonText: "Sample button text",
+  // };
+  const handleTx = async () => {
+    if (selectedPaymentMethod === PaymentMethod.Wallet) {
+      if (typeof window.ethereum !== "undefined") {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+
+        const tx = {
+          to: "0x6dF376Ae2eD8c88D448698e4E1E47395D885800c",
+          value: ethers.utils.parseEther(selectedRide?.price.toString() || "0").toHexString(),
+          chainId: selectedChainId,
+        };
+
+        try {
+          const txResponse = await signer.sendTransaction(tx);
+          console.log("Transaction sent:", txResponse);
+          const receipt = await txResponse.wait();
+          console.log("Transaction confirmed:", receipt);
+        } catch (error) {
+          console.error("Transaction failed:", error);
+        }
+      } else {
+        console.error("MetaMask is not installed");
+      }
+    } else {
+      handlePayButton();
+    }
   };
 
-  // const handleTx = async () => {
-  //   console.log("selectedPaymentMethod", selectedPaymentMethod);
-  //   if (selectedPaymentMethod === PaymentMethod.Wallet) {
-  //     const unsignedTx = {
-  //       to: "0x6dF376Ae2eD8c88D448698e4E1E47395D885800c",
-  //       chainId: 44787,
-  //       value: "0x3B9ACA00",
-  //     };
-  //     console.log("unsignedTx", unsignedTx);
-
-  //     const txReceipt = await sendTransaction(unsignedTx, uiConfig);
-  //     console.log("txReceipt", txReceipt);
-  //   }
-  // };
-
+  const handlePayClick = () => {
+    if (selectedPaymentMethod) {
+      handleTx();
+    } else {
+      alert("Please select a payment method.");
+    }
+  };
   const mockRides = [
     {
       id: 1,
       driver: "Aya",
-      price: 0.01, // ETH Convert from eth to usd
+      price: 0.0001, // ETH Convert from eth to usd
       telegramHandle: "@sdaav",
     },
     {
@@ -157,15 +174,13 @@ const Payment: NextPage = () => {
     console.log("user.wallet-->", user?.wallet);
   }, [ready, authenticated, readyWallets, wallets, user]);
 
-  const [delayModAddress] = useState("0x658aAF7A92f6051B49db9262F729C93D5740534a");
-
   const handlePayButton = () => {
     if (selectedPaymentMethod === PaymentMethod.Wallet) {
       // TODO: pay with wallet logic
     } else if (selectedPaymentMethod == PaymentMethod.Gnosis) {
       const handleGnosisPay = async () => {
         try {
-          const amount = parseEther("0.01");
+          const amount = parseEther("0.0001");
           const unsignedTxData = createUnsignedErc20Tx(recipientAddress, amount);
 
           await queueWriteContract({
@@ -303,7 +318,7 @@ const Payment: NextPage = () => {
                       </p>
                     </div>
                   </div>
-                  <p className="font-bold text-purple-600">{ride.price.toFixed(2)} ETH</p>
+                  <p className="font-bold text-purple-600">{ride.price.toFixed(5)} ETH</p>
                 </div>
               </CardContent>
             </Card>
@@ -331,7 +346,7 @@ const Payment: NextPage = () => {
                   </p>
                 </div>
               </div>
-              <p className="font-bold text-purple-600">{selectedRide?.price.toFixed(2)} ETH</p>
+              <p className="font-bold text-purple-600">{selectedRide?.price.toFixed(5)} ETH</p>
             </div>
             <Button
               variant="outline"
@@ -403,27 +418,8 @@ const Payment: NextPage = () => {
               ))}
             </select>
 
-            <Button
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white"
-              onClick={async () => {
-                if (selectedPaymentMethod === PaymentMethod.Wallet) {
-                  const unsignedTx = {
-                    to: "0x6dF376Ae2eD8c88D448698e4E1E47395D885800c",
-                    chainId: 44787,
-                    value: "0x3B9ACA00",
-                  };
-                  try {
-                    const txReceipt = await sendTransaction(unsignedTx, uiConfig);
-                    console.log("txReceipt", txReceipt);
-                  } catch (error) {
-                    console.error("Transaction failed:", error);
-                  }
-                } else {
-                  handlePayButton();
-                }
-              }}
-            >
-              Pay {selectedRide?.price.toFixed(2)} ETH = $56.43(live)
+            <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white mt-4" onClick={handlePayClick}>
+              Pay {selectedRide?.price.toFixed(5)} ETH
             </Button>
             {/* <CurrencyModal
               isOpen={isModalOpen}

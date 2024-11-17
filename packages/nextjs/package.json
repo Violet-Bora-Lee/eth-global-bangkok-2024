@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
+    "@privy-io/expo": "latest",
     "@privy-io/react-auth": "1.94.2",
     "@privy-io/wagmi": "0.2.12",
     "@radix-ui/react-dialog": "^1.1.2",
