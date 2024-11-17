@@ -151,7 +151,7 @@ const Dashboard: NextPage = () => {
                       </div>
                     </div>
                     <p className="text-gray-600">Paris → Marseille</p>
-                    <p className="font-bold mt-2">€50</p>
+                    <p className="font-bold mt-2">$56.43</p>
                   </div>
                 </div>
               </CardContent>
