@@ -34,6 +34,8 @@
 
 
 
+## Network: sepolia  (ETH)  
+
 ### Deployer Address
 👋🐒 Deployer: `0xf15eBd90B2E453cb96663d119380Cc9D03F04DdA`
 
