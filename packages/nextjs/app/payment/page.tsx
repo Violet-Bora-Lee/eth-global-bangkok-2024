@@ -423,7 +423,7 @@ const Payment: NextPage = () => {
                 }
               }}
             >
-              Pay {selectedRide?.price.toFixed(2)} ETH
+               Pay {selectedRide?.price.toFixed(2)} ETH = $56.43(live)
             </Button>
             {/* <CurrencyModal
               isOpen={isModalOpen}
