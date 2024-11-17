@@ -423,7 +423,7 @@ const Payment: NextPage = () => {
                 }
               }}
             >
-               Pay {selectedRide?.price.toFixed(2)} ETH = $56.43(live)
+              Pay {selectedRide?.price.toFixed(2)} ETH = $56.43(live)
             </Button>
             {/* <CurrencyModal
               isOpen={isModalOpen}
@@ -454,15 +454,15 @@ const Payment: NextPage = () => {
                   </p>
                 </div>
               </div>
-                       <Button
-  className="w-full bg-purple-600 hover:bg-purple-700 text-white"
-  onClick={() => {
-    window.open('https://t.me/+gmUqS53O0o8xMjJk', '_blank');
-  }}
->
-  <MessageCircle className="w-4 h-4 mr-2" />
-  Join Telegram Group
-</Button>
+              <Button
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+                onClick={() => {
+                  window.open("https://t.me/+gmUqS53O0o8xMjJk", "_blank");
+                }}
+              >
+                <MessageCircle className="w-4 h-4 mr-2" />
+                Join Telegram Group
+              </Button>
             </div>
           </CardContent>
         </Card>
