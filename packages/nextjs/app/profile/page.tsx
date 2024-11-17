@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { ZkPassportButton } from "../(home)/components/ZkPassportButton";
 import { Check, Upload } from "lucide-react";
 import type { NextPage } from "next";
 import { Button } from "~~/components/ui/button";
@@ -104,7 +105,9 @@ const Profile: NextPage = () => {
                   {!formData.licenseVerified && (
                     <>
                       <div className="text-center">or</div>
-                      <Button className="w-full bg-purple-600 hover:bg-purple-700">Connect zkPassport</Button>
+                      <Button className="w-full bg-purple-600 hover:bg-purple-700">
+                        <ZkPassportButton />
+                      </Button>
                     </>
                   )}
                 </div>
