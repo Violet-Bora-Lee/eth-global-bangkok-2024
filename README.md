@@ -1,3 +1,17 @@
+# Rollin`Pool 🚘
+
+## Short Description
+
+Rollin`pool is a user friendly Telegram mini app that connects individual drivers and passengers to share costs, reduce emissions, and enhance social interactions, all while using ZK to ensure secure and private rides.
+
+## Prizes won 🏆
+
+| Sponsors  | Prizes |
+| ------------- | ------------- |
+| Avail  | Best Arbitrum Orbit x Avail integrated project  |
+| Gnosis  | Gnosis Pay Integration  |
+| Chronicle  | Best Integration  |
+
 ### Here is the link to the telegram bot:- https://github.com/rose2221/ETH_Global-HACKATHON-Telegram-Bot/blob/main/main.py
 
 # Deployment Summary
